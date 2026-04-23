@@ -1,0 +1,26 @@
+@charset "UTF-8";
+
+:root{
+    --primary-main: #3182F6;
+    --primary-dark: #15164D;
+    --primary-mid: #3f5fb8;
+
+    --primary-main-soft: #eef4ff;
+    --primary-mid-soft: #edf3ff;
+    --primary-dark-soft: rgba(21, 22, 77, 0.08);
+
+    --danger-main: #d74b5a;
+    --danger-dark: #be3d4b;
+    --danger-soft: #fff1f2;
+
+    --text-main: #111827;
+    --text-sub: #4b5563;
+    --text-muted: #6b7280;
+    --text-light: #9ca3af;
+
+    --line: #e5e7eb;
+    --line-strong: #d1d5db;
+    --bg-card: #ffffff;
+    --bg-soft: #e9ecef;
+    --white: #ffffff;
+}

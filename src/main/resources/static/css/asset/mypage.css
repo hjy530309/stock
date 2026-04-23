@@ -1,0 +1,541 @@
+@charset "UTF-8";
+
+/* 설정 페이지 공통 */
+.app-container {
+    width: 100%;
+}
+
+.main-content {
+    width: 100%;
+    flex: 1;
+    min-width: 0;
+}
+
+.content-wrapper {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0 0 24px;
+}
+
+.page-header {
+    margin-bottom: 12px;
+}
+
+.page-header h1 {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--text-main);
+    letter-spacing: -0.03em;
+}
+
+/* 카드 공통 */
+.settings-section {
+    width: 100%;
+    background: var(--bg-card);
+    border: 1px solid #e8ecf4;
+    border-radius: 22px;
+    box-shadow: 0 10px 28px rgba(15, 23, 42, 0.04);
+    padding: 18px 20px 6px;
+    margin-bottom: 12px;
+}
+
+.logout-section {
+    width: 100%;
+    margin-top: 4px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+/* 섹션 헤더 */
+.section-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.section-icon {
+    width: 22px;
+    height: 22px;
+    color: var(--primary-dark);
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.section-title {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--primary-dark);
+    line-height: 1.3;
+}
+
+.section-subtitle {
+    margin: 3px 0 0;
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--text-light);
+}
+
+/* 설정 리스트 */
+.settings-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.settings-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 18px;
+    padding: 14px 0;
+    border-top: 1px solid #edf1f7;
+}
+
+.settings-list .settings-item:first-child {
+    border-top: none;
+    padding-top: 2px;
+}
+
+.settings-item:last-child {
+    padding-bottom: 14px;
+}
+
+.settings-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.settings-label {
+    margin: 0 0 4px;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--primary-dark);
+    line-height: 1.35;
+}
+
+.settings-value {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text-muted);
+    word-break: keep-all;
+}
+
+/* 수정 input */
+.settings-info input[type="text"],
+.settings-info input[type="tel"],
+.settings-info input[type="password"],
+.settings-edit-input {
+    width: 240px;
+    max-width: 100%;
+    height: 38px;
+    padding: 0 12px;
+    border: 1px solid #d9dee8;
+    border-radius: 10px;
+    font-size: 14px;
+    color: var(--text-main);
+    background: var(--bg-card);
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.settings-info input[type="text"]:focus,
+.settings-info input[type="tel"]:focus,
+.settings-info input[type="password"]:focus,
+.settings-edit-input:focus {
+    border-color: var(--primary-dark);
+    box-shadow: 0 0 0 4px var(--primary-dark-soft);
+}
+
+/* 버튼 그룹 */
+.edit-button-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.btn {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.btn-link {
+    min-width: 64px;
+    height: 36px;
+    padding: 0 14px;
+    border-radius: 10px;
+    background: #f4f6fb;
+    color: #3d4a7a;
+    font-size: 13px;
+    font-weight: 700;
+    transition: all 0.18s ease;
+}
+
+.btn-link:hover {
+    background: var(--primary-mid);
+    color: var(--white);
+}
+
+.btn-save {
+    min-width: 64px;
+    height: 36px;
+    padding: 0 14px;
+    border-radius: 10px;
+    background: var(--primary-mid);
+    color: var(--white);
+    font-size: 13px;
+    font-weight: 700;
+    transition: all 0.18s ease;
+}
+
+.btn-save:hover {
+    background: var(--primary-dark);
+}
+
+.btn-cancel {
+    min-width: 64px;
+    height: 36px;
+    padding: 0 14px;
+    border-radius: 10px;
+    background: #eef1f6;
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 700;
+    transition: all 0.18s ease;
+}
+
+.btn-cancel:hover {
+    background: #dfe5ee;
+    color: var(--text-sub);
+}
+
+/* 토글 */
+.toggle-switch {
+    position: relative;
+    display: inline-flex;
+    width: 52px;
+    height: 30px;
+    flex-shrink: 0;
+}
+
+.toggle-input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    inset: 0;
+    background: #dfe5ef;
+    border-radius: 999px;
+    transition: background 0.2s ease;
+    cursor: pointer;
+}
+
+.toggle-slider::before {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 4px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--white);
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.12);
+    transition: transform 0.2s ease;
+}
+
+.toggle-input:checked + .toggle-slider {
+    background: var(--primary-mid);
+}
+
+.toggle-input:checked + .toggle-slider::before {
+    transform: translateX(22px);
+}
+
+/* 계좌 확장용 */
+.account-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 18px;
+    padding: 14px 0;
+    border-top: 1px solid #edf1f7;
+}
+
+.account-item:last-child {
+    padding-bottom: 0;
+}
+
+.account-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.account-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: var(--primary-main-soft);
+    color: var(--primary-dark);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    flex-shrink: 0;
+}
+
+.account-name {
+    margin: 0 0 3px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--primary-dark);
+}
+
+.account-number {
+    margin: 0;
+    font-size: 13px;
+    color: var(--text-light);
+}
+
+.btn-add-account {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 110px;
+    height: 38px;
+    padding: 0 14px;
+    border-radius: 10px;
+    background: var(--primary-mid);
+    color: var(--white);
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.18s ease;
+}
+
+.btn-add-account:hover {
+    background: var(--primary-dark);
+}
+
+/* 로그아웃 */
+.btn-logout {
+    width: 100%;
+    height: 48px;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: #f3f4f6;
+    color: var(--text-sub);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.18s ease;
+}
+
+.btn-logout:hover {
+    background: var(--primary-mid);
+    color: var(--white);
+    border-color: var(--primary-mid);
+}
+
+.btn-logout:active {
+    background: var(--primary-dark);
+    color: var(--white);
+    border-color: var(--primary-dark);
+}
+
+.btn-danger-outline {
+    min-width: 96px;
+    height: 36px;
+    padding: 0 14px;
+    border-radius: 10px;
+    background: #f3f4f6;
+    color: var(--danger-main);
+    font-size: 13px;
+    font-weight: 700;
+    transition: all 0.18s ease;
+}
+
+.btn-danger-outline:hover {
+    background: var(--danger-main);
+    border-color: var(--danger-main);
+    color: var(--white);
+}
+
+.btn-danger-outline:active {
+    background: color-mix(in srgb, var(--danger-main) 88%, black);
+    border-color: color-mix(in srgb, var(--danger-main) 88%, black);
+    color: var(--white);
+}
+
+
+/* 캘린더 확장용 */
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.calendar-legend {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.legend-colors {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.legend-color {
+    width: 10px;
+    height: 10px;
+    border-radius: 999px;
+}
+
+.calendar-month {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--primary-dark);
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.calendar-day-label {
+    text-align: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-light);
+    padding-bottom: 4px;
+}
+
+.calendar-day {
+    position: relative;
+    min-height: 64px;
+    border-radius: 12px;
+    background: #f8fafc;
+    border: 1px solid #edf1f7;
+    padding: 8px;
+    transition: all 0.18s ease;
+}
+
+.calendar-day:hover {
+    border-color: #cfd8e8;
+    background: var(--bg-card);
+}
+
+.calendar-day-tooltip {
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 8px);
+    transform: translateX(-50%);
+    min-width: 140px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: var(--text-main);
+    color: var(--white);
+    font-size: 12px;
+    line-height: 1.45;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.18s ease;
+    z-index: 10;
+}
+
+.calendar-day:hover .calendar-day-tooltip {
+    opacity: 1;
+    visibility: visible;
+}
+
+@media (max-width: 900px) {
+    .content-wrapper {
+        padding: 16px 0 28px;
+    }
+
+    .page-header h1 {
+        font-size: 24px;
+    }
+
+    .settings-section {
+        padding: 18px 18px 6px;
+    }
+}
+
+@media (max-width: 768px) {
+    .content-wrapper {
+        padding: 14px 0 24px;
+    }
+
+    .page-header {
+        margin-bottom: 14px;
+    }
+
+    .page-header h1 {
+        font-size: 22px;
+    }
+
+    .page-subtitle {
+        font-size: 14px;
+    }
+
+    .settings-section {
+        border-radius: 18px;
+        padding: 16px 14px 4px;
+    }
+
+    .section-header {
+        gap: 10px;
+        margin-bottom: 12px;
+    }
+
+    .section-title {
+        font-size: 19px;
+    }
+
+    .section-subtitle {
+        font-size: 13px;
+    }
+
+    .settings-item,
+    .account-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .edit-button-group {
+        width: 100%;
+        flex-wrap: wrap;
+    }
+
+    .btn-link,
+    .btn-save,
+    .btn-cancel {
+        min-width: 72px;
+    }
+
+    .toggle-switch {
+        align-self: flex-end;
+    }
+}

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="'Stoxle - ' + ${stockInfo.stockName}">Stoxle - 종목 상세</title>
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/color.css}">
+    <link rel="stylesheet" th:href="@{/css/market.css}">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<!--    <script src="https://cdn.jsdelivr.net/npm/highcharts@11/highstock.js"></script>-->
+<!--    <script src="https://cdn.jsdelivr.net/npm/highcharts@11/modules/accessibility.js"></script>-->
+    <script src="https://cdn.jsdelivr.net/npm/highcharts@11/highstock.js" crossorigin="anonymous" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/highcharts@11/modules/accessibility.js" crossorigin="anonymous" defer></script>
+</head>
+<body class="withMainHeader">
+
+<div th:replace="~{fragments/header :: header('market')}"></div>
+
+<div class="pageContainer">
+    <div class="detailPage">
+
+        <!-- 헤더: 종목명 + 관심종목 버튼 -->
+        <div class="detailHeader">
+            <div class="detailNameGroup">
+                <h1 class="detailName"
+                    th:text="${stockInfo.stockName != null ? stockInfo.stockName : stockCode}">종목명</h1>
+                <span class="detailCodeBadge" th:text="${stockCode}">000000</span>
+            </div>
+            <button id="watchBtn"
+                    th:classappend="${watching} ? 'watching' : ''"
+                    class="watchBtn">
+                <span th:text="${watching} ? '★ 관심종목 등록됨' : '☆ 관심종목 추가'">☆ 관심종목 추가</span>
+            </button>
+        </div>
+
+        <!-- 가격 패널 -->
+        <div class="detailPricePanel">
+            <div id="detailCurrentPrice" class="detailCurrentPrice">
+                <span th:text="${#numbers.formatInteger(T(java.lang.Long).parseLong(stockInfo.currentPrice), 1, 'COMMA')} + ' KRW'"
+                      th:if="${stockInfo.currentPrice != null and stockInfo.currentPrice != '0'}">-</span>
+                <span th:unless="${stockInfo.currentPrice != null and stockInfo.currentPrice != '0'}">-</span>
+            </div>
+            <div id="detailPriceChange" class="detailPriceChange">-</div>
+            <div class="detailMeta">
+                <span>시가 <strong id="detailOpenPrice"
+                    th:text="${#numbers.formatInteger(T(java.lang.Long).parseLong(stockInfo.openPrice), 1, 'COMMA')}"
+                    th:if="${stockInfo.openPrice != null}">-</strong></span>
+                <span>고가 <strong id="detailHighPrice"
+                    th:text="${#numbers.formatInteger(T(java.lang.Long).parseLong(stockInfo.highPrice), 1, 'COMMA')}"
+                    th:if="${stockInfo.highPrice != null}">-</strong></span>
+                <span>저가 <strong id="detailLowPrice"
+                    th:text="${#numbers.formatInteger(T(java.lang.Long).parseLong(stockInfo.lowPrice), 1, 'COMMA')}"
+                    th:if="${stockInfo.lowPrice != null}">-</strong></span>
+                <span>거래량 <strong id="detailVolume"
+                    th:text="${#numbers.formatInteger(T(java.lang.Long).parseLong(stockInfo.volume), 1, 'COMMA')}"
+                    th:if="${stockInfo.volume != null}">-</strong></span>
+            </div>
+        </div>
+
+        <!-- 차트 -->
+        <div class="detailChartBox">
+            <div class="detailChartTabs">
+                <button class="detailChartTab active" data-tab="daily">일별</button>
+                <button class="detailChartTab" data-tab="time">시간별</button>
+                <button class="detailChartTab" data-tab="minute">분별</button>
+            </div>
+            <div class="detailChartContainer">
+                <div id="detailChart" style="width:100%;height:100%;"
+                     th:attr="data-code=${stockCode},data-name=${stockInfo.stockName}">
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script th:src="@{/js/market.js}" defer></script>
+</body>
+</html>

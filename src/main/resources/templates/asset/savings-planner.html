@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stoxle - 저축 플래너</title>
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/color.css}">
+    <link rel="stylesheet" th:href="@{/css/asset/style.css}">
+    <link rel="stylesheet" th:href="@{/css/asset/savings-planner.css}">
+</head>
+
+<body class="withMainHeader">
+<div th:replace="~{fragments/header :: header('asset/dashboard')}"></div>
+
+<div class="pageContainer">
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M19 5c-1.5 0-2.8 1.4-3 2-3.5-1.5-11-.3-11 5 0 1.8 0 3 2 4.5V20h4v-2h3v2h4v-4c1-.5 1.5-1 2-2h2v-4h-2c0-1-.5-1.5-1-2h0V5z"/>
+                        </svg>
+                    </div>
+                    <span class="logo-text">Stoxle</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul>
+                    <li>
+                        <a href="/asset/dashboard" class="nav-item">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                                <polyline points="9 22 9 12 15 12 15 22"/>
+                            </svg>
+                            <span>대시보드</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/asset/analytics" class="nav-item">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                            </svg>
+                            <span>소비 분석</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/asset/savings-planner" class="nav-item active">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M19 5c-1.5 0-2.8 1.4-3 2-3.5-1.5-11-.3-11 5 0 1.8 0 3 2 4.5V20h4v-2h3v2h4v-4c1-.5 1.5-1 2-2h2v-4h-2c0-1-.5-1.5-1-2h0V5z"/>
+                            </svg>
+                            <span>저축 플래너</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-user">
+                <div class="user-info">
+                    <div class="user-avatar" id="userAvatar">김</div>
+                    <div class="user-details">
+                        <p class="user-name" th:text="${userName} ?: '김철수'">김철수</p>
+                        <p class="user-email" th:text="${userEmail} ?: 'chulsoo@email.com'">chulsoo@email.com</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-wrapper">
+                <div class="page-header">
+                    <h1>저축 플래너</h1>
+                    <p class="page-subtitle">목표를 설정하고 달성 계획을 세워보세요</p>
+                </div>
+
+                <div class="alert-banner warning" id="alertBanner">
+                    <div class="alert-icon warning">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
+                            <line x1="12" y1="9" x2="12" y2="13"/>
+                            <line x1="12" y1="17" x2="12.01" y2="17"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h4 class="alert-title warning" th:text="${assetDto.toneTitle}">저축 목표를 입력하세요</h4>
+                        <p class="alert-description resultMessage" th:text="${assetDto.message}">저축 목표를 입력하세요</p>
+                    </div>
+                </div>
+
+                <div class="card planner-card">
+                    <div class="planner-card-header">
+                        <div class="simulator-header">
+                            <div>
+                                <h3 class="simulator-title">저축 목표 시뮬레이터</h3>
+                                <p class="simulator-subtitle">목표 금액과 기간을 입력하여 필요한 월 저축액을 확인하세요</p>
+                            </div>
+                        </div>
+
+                        <button type="submit" form="plannerForm" class="btn btn-primary planner-submit-btn">
+                            분석하기 및 저장
+                        </button>
+                    </div>
+
+                    <form id="plannerForm" th:action="@{/asset/savings-planner/analyze}" th:object="${assetDto}" method="post">
+                        <input type="hidden" th:field="*{monthlyExpense}" th:value="${assetDto.monthlyExpense}" />
+
+                        <div class="input-grid input-grid-two">
+                            <div class="input-group">
+                                <label class="input-label">목표 금액</label>
+                                <div class="input-wrapper">
+                                    <input type="text" id="goalAmount" th:field="*{goalAmount}" class="input-field money" placeholder="0" required>
+                                    <span class="input-unit">원</span>
+                                </div>
+                            </div>
+
+                            <div class="input-group">
+                                <label class="input-label">목표 기간</label>
+                                <div class="input-wrapper">
+                                    <input type="number" id="goalMonths" th:field="*{goalMonths}" class="input-field" min="1" placeholder="1" required>
+                                    <span class="input-unit">개월</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-grid input-grid-two">
+                            <div class="input-group">
+                                <label class="input-label">현재 자산</label>
+                                <div class="input-wrapper">
+                                    <input type="text" id="currentAsset" th:field="*{currentAsset}" class="input-field money" placeholder="0" required>
+                                    <span class="input-unit">원</span>
+                                </div>
+                            </div>
+
+                            <div class="input-group">
+                                <label class="input-label">월 소득</label>
+                                <div class="input-wrapper">
+                                    <input type="text" id="monthlyIncome" th:field="*{monthlyIncome}" class="input-field money" placeholder="0" required>
+                                    <span class="input-unit">원</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-grid input-grid-three">
+                            <div class="input-group">
+                                <label class="input-label">나이</label>
+                                <div class="input-wrapper">
+                                    <input type="number" id="age" th:field="*{age}" class="input-field" min="1" max="100" placeholder="1" required>
+                                    <span class="input-unit">세</span>
+                                </div>
+                            </div>
+
+                            <div class="input-group">
+                                <label class="input-label">직업 유형</label>
+                                <div class="input-wrapper">
+                                    <select th:field="*{jobType}" class="input-field planner-select">
+                                        <option value="student">학생</option>
+                                        <option value="employee">직장인</option>
+                                        <option value="professional">전문직</option>
+                                        <option value="freelancer">프리랜서</option>
+                                        <option value="self_employed">자영업자</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="input-group">
+                                <label class="input-label">투자 성향</label>
+                                <div class="input-wrapper">
+                                    <select th:field="*{riskPreference}" class="input-field planner-select">
+                                        <option value="low">안정형 (저위험)</option>
+                                        <option value="medium">중립형 (중위험)</option>
+                                        <option value="high">공격형 (고위험)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="result-box">
+                        <div class="result-content">
+                            <div>
+                                <p class="result-label">매월 필요한 저축액</p>
+                                <h2 class="result-value">
+                                    <span id="monthlyRequired" th:text="${#numbers.formatInteger(assetDto.requiredMonthlySaving, 0, 'COMMA')}">100,000</span>
+                                    <span class="result-unit">원</span>
+                                </h2>
+                            </div>
+                            <div class="result-icon">
+                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="card-title-section">재무 현황 분석</h3>
+
+                    <div class="analysis-list">
+                        <div class="analysis-item">
+                            <span class="analysis-label">월 수입</span>
+                            <span class="analysis-value primary" id="displayIncome"
+                                  th:text="${'+' + #numbers.formatInteger(assetDto.monthlyIncome, 0, 'COMMA') + '원'}">+0원</span>
+                        </div>
+
+                        <div class="analysis-item">
+                            <span class="analysis-label">월 지출</span>
+                            <span class="analysis-value"
+                                  th:text="${'-' + #numbers.formatInteger(currentMonthSpending, 0, 'COMMA') + '원'}">-0원</span>
+                        </div>
+
+                        <div class="analysis-item highlight">
+                            <span class="analysis-label strong">월 저축 가능 금액</span>
+                            <span class="analysis-value primary" id="availableAmount"
+                                  th:text="${#numbers.formatInteger(assetDto.monthlySaving, 0, 'COMMA')} + '원'">0원</span>
+                        </div>
+
+                        <div class="analysis-item highlight">
+                            <span class="analysis-label strong">월 필요 저축액</span>
+                            <span class="analysis-value primary" id="requiredAmount"
+                                  th:text="${#numbers.formatInteger(assetDto.requiredMonthlySaving, 0, 'COMMA')} + '원'">입력하세요</span>
+                        </div>
+
+                        <div class="analysis-item warning" id="gapItem">
+                            <span class="analysis-label strong"
+                                  th:text="${assetDto.goalGap < 0 ? '목표보다 초과 금액' : '목표까지 부족 금액'}">입력하세요</span>
+                            <span class="analysis-value accent" id="gapValue"
+                                  th:text="${assetDto.goalGap < 0 ? '+' + #numbers.formatInteger(assetDto.goalGap * -1, 0, 'COMMA') : #numbers.formatInteger(assetDto.goalGap * -1, 0, 'COMMA')} + '원'">0원</span>
+                        </div>
+                    </div>
+
+                    <div class="analysis-result-wrapper">
+                        <div class="result-banner">
+                            <div class="banner-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <polyline points="12 6 12 12 16 14"></polyline>
+                                </svg>
+                            </div>
+                            <div class="banner-content">
+                                <span class="banner-label">달성 여부</span>
+                                <span class="banner-badge">AI 예측</span>
+                                <strong class="banner-text" th:text="${assetDto.modelPredictionLabel}">달성 가능</strong>
+                                <span class="banner-sub" th:text="${#numbers.formatDecimal(assetDto.modelProbability * 100, 1, 2)} + '%'">94.58%</span>
+                            </div>
+                        </div>
+
+                        <div class="result-banner">
+                            <div class="banner-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2">
+                                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                                </svg>
+                            </div>
+                            <div class="banner-content">
+                                <span class="banner-label">분석 결과</span>
+                                <span class="banner-badge">분석 톤</span>
+                                <strong class="banner-text" th:text="${assetDto.toneTitle}">현재 흐름이 꽤 좋은 편이에요</strong>
+                                <span class="banner-sub" th:text="${#numbers.formatInteger(assetDto.monthlySaving, 0, 'COMMA')} + '원'">852,800원</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card history-card">
+                    <div class="history-header">
+                        <h3>최근 자산 분석 이력</h3>
+                        <!--                        <button type="button" class="history-more-btn" onclick="toggleHistory()">더보기</button>-->
+                    </div>
+
+                    <div id="historyList" class="history-list collapsed">
+                        <div class="history-item" th:if="${historyList == null or #lists.isEmpty(historyList)}">
+                            <p class="history-empty">아직 저장된 분석 이력이 없습니다.</p>
+                        </div>
+
+                        <div class="history-item" th:each="item : ${historyList}">
+                            <div class="history-left">
+                                <div class="history-icon">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M12 8v5l3 3"></path>
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                    </svg>
+                                </div>
+
+                                <div class="history-info">
+                                    <p class="history-goal">
+                                        <span th:text="${#numbers.formatInteger(item.goalAmount, 0, 'COMMA')} + '원'">0원</span> 목표
+                                    </p>
+                                    <p class="history-meta">
+                                        <span th:text="'기간: ' + ${item.goalMonths} + '개월'">기간: 2개월</span>
+                                        <span> • </span>
+                                        <span th:text="${item.createdAt}">2026-04-01</span>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="history-right">
+                                <p class="history-status"
+                                   th:text="${item.predictionLabel}"
+                                   th:classappend="${item.prediction == 1 ? 'positive' : 'negative'}">목표에 도달할 가능성이 있어요</p>
+                                <p class="history-asset"
+                                   th:text="'현재: ' + ${#numbers.formatInteger(item.currentAsset, 0, 'COMMA')} + '원'">현재: 50,000원</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+</div>
+</body>
+</html>

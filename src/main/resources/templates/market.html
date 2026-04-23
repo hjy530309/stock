@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Stoxle - 종목 순위</title>
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/color.css}">
+    <link rel="stylesheet" th:href="@{/css/market.css}">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<!--    <script src="https://cdn.jsdelivr.net/npm/highcharts@11/highstock.js"></script>-->
+<!--    <script src="https://cdn.jsdelivr.net/npm/highcharts@11/modules/accessibility.js"></script>-->
+    <script src="https://cdn.jsdelivr.net/npm/highcharts@11/highstock.js" crossorigin="anonymous" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/highcharts@11/modules/accessibility.js" crossorigin="anonymous" defer></script>
+</head>
+<body class="withMainHeader">
+
+<div th:replace="~{fragments/header :: header('market')}"></div>
+
+<div class="pageContainer">
+    <div class="marketPage">
+        <div class="marketSplit">
+
+            <!-- ── 왼쪽: 리스트 패널 ── -->
+            <div class="marketListPanel">
+
+                <!-- 검색바 -->
+                <div class="listSearchBarWrapper">
+                    <div class="listSearchBar">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+                             stroke="#9ca3af" stroke-width="2.5"
+                             stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"/>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                        </svg>
+                        <input type="text" id="stockSearchInput"
+                               placeholder="종목명 또는 코드 검색"
+                               autocomplete="off"/>
+                        <button class="searchClearBtn" id="searchClearBtn" style="display:none;">✕</button>
+                    </div>
+                    <div id="searchDropdown" class="searchDropdown" style="display:none;"></div>
+                </div>
+
+                <!-- 필터 탭 -->
+                <div class="listFilterTabs">
+                    <button class="listFilterBtn active" data-type="trade">거래대금순</button>
+                    <button class="listFilterBtn" data-type="fluctuation">등락률순</button>
+                </div>
+
+                <!-- 컬럼 헤더 -->
+                <div class="listHeader">
+                    <span class="colRank">순위</span>
+                    <span class="colName">종목명</span>
+                    <span class="colPrice">현재가</span>
+                    <span class="colRate">등락률</span>
+                    <span class="colTrade" id="colTradeHeader">거래대금</span>
+                </div>
+
+                <!-- 리스트 본문 -->
+                <div id="stockListBody">
+                    <div class="stockRowSkeleton" th:each="i : ${#numbers.sequence(1,30)}">
+                        <div class="skelBlock skelRank"></div>
+                        <div class="skelBlock skelName"></div>
+                        <div class="skelBlock skelPrice"></div>
+                        <div class="skelBlock skelRate"></div>
+                        <div class="skelBlock skelTrade"></div>
+                    </div>
+                </div>
+
+                <!-- 검색 결과 없음 -->
+                <div id="listNoResult" style="display:none;" class="listErrorBox">
+                    <div>검색 결과가 없습니다</div>
+                </div>
+
+                <!-- 에러 -->
+                <div id="listError" style="display:none;" class="listErrorBox">
+                    <div>📡 시세 데이터를 불러올 수 없습니다</div>
+                    <div class="listErrorSub">장 운영시간(09:00~15:30)을 확인해주세요</div>
+                    <button onclick="loadMarketData(currentType)" class="retryBtn">다시 시도</button>
+                </div>
+            </div>
+
+            <!-- ── 오른쪽: 차트 패널 ── -->
+            <div class="marketChartPanel" id="marketChartPanel">
+
+                <div class="chartPanelEmpty" id="chartPanelEmpty">
+                    <div class="emptyIcon">📈</div>
+                    <div class="emptyText">종목을 선택하면<br>차트가 표시됩니다</div>
+                </div>
+
+                <div class="chartPanelContent" id="chartPanelContent" style="display:none;">
+                    <div class="panelStockHeader">
+                        <div>
+                            <div class="panelStockName" id="panelStockName">-</div>
+                            <div class="panelStockCode" id="panelStockCode">-</div>
+                        </div>
+                        <button class="panelWatchBtn" id="panelWatchBtn" title="관심종목 + 알림 등록">♡</button>
+                    </div>
+
+                    <div class="panelPriceRow">
+                        <span class="panelCurrentPrice" id="panelCurrentPrice">-</span>
+                        <span class="panelChangeRate" id="panelChangeRate">-</span>
+                    </div>
+                    <div class="panelMeta">
+                        <span>시가 <strong id="panelOpen">-</strong></span>
+                        <span>고가 <strong id="panelHigh">-</strong></span>
+                        <span>저가 <strong id="panelLow">-</strong></span>
+                        <span>거래량 <strong id="panelVol">-</strong></span>
+                    </div>
+
+                    <div class="panelAlertNote" id="panelAlertNote">
+                        ♡ 관심종목 등록 시 ±3% 변동 알림을 받습니다
+                    </div>
+
+                    <div class="panelChartTabs">
+                        <button class="panelChartTab active" data-tab="daily">일별</button>
+                        <button class="panelChartTab" data-tab="time">시간별</button>
+                        <button class="panelChartTab" data-tab="minute">분별</button>
+                    </div>
+
+                    <div class="panelChartArea">
+                        <div id="panelChart" style="width:100%;height:100%;"></div>
+                    </div>
+
+                    <a id="panelDetailLink" href="#" class="panelDetailLink">
+                        전체 차트 보기 →
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/js/market.js}" defer></script>
+</body>
+</html>

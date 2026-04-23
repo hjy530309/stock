@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<header class="topHeader guestOnlyHeader" th:fragment="guestHeader(currentPage)">
+    <div class="topBar">
+        <div class="inner">
+            <div class="brand">
+                <div class="logo-header">
+                    <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 5c-1.5 0-2.8 1.4-3 2-3.5-1.5-11-.3-11 5 0 1.8 0 3 2 4.5V20h4v-2h3v2h4v-4c1-.5 1.5-1 2-2h2v-4h-2c0-1-.5-1.5-1-2h0V5z"/>
+                    </svg>
+                </div>
+                <a class="brandText" th:href="@{/stock}">Stoxle</a>
+            </div>
+
+            <div class="menu">
+                <th:block th:if="${currentPage == 'login'}">
+                    <span class="currentPageText">로그인</span>
+                    <a th:href="@{/register}" class="utilLink">회원가입</a>
+                </th:block>
+
+                <th:block th:if="${currentPage == 'register'}">
+                    <span class="currentPageText">회원가입</span>
+                    <a th:href="@{/login}" class="utilLink">로그인</a>
+                </th:block>
+
+                <th:block th:if="${currentPage != 'login' and currentPage != 'register'}">
+                    <a th:href="@{/login}" class="utilLink">로그인</a>
+                    <a th:href="@{/register}" class="utilLink">회원가입</a>
+                </th:block>
+            </div>
+        </div>
+    </div>
+</header>
+
+</body>
+</html>

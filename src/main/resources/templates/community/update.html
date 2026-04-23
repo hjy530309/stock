@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 수정</title>
+
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/color.css}">
+    <link rel="stylesheet" th:href="@{/css/community/update.css}">
+
+    <script type="text/javascript" th:src="@{/js/jquery.js}"></script>
+    <script type="text/javascript" th:src="@{/js/community/update.js}" defer></script>
+</head>
+<body class="withMainHeader">
+<div th:replace="~{fragments/header :: header('community')}"></div>
+
+<div class="communityWritePage">
+    <div class="communityWriteCard">
+        <div class="communityWriteTop">
+            <h2>게시글 수정</h2>
+            <p>커뮤니티에 도움이 되는 글을 작성해주세요</p>
+        </div>
+
+        <form name="communityWriteForm"
+              class="communityWriteForm"
+              th:action="@{/community/update}"
+              method="post"
+              th:object="${dto}"
+              enctype="multipart/form-data"
+              onsubmit="return check();">
+
+            <div th:if="${errorMessage}" class="cwErrorMessage" th:text="${errorMessage}"></div>
+
+            <input type="hidden" name="user_num" th:value="${session.loginNum}">
+            <input type="hidden" th:field="*{board_id}">
+
+            <div class="cwGridTwo">
+                <div class="cwField">
+                    <label for="displayUserNum">사용자 번호</label>
+                    <input type="text" id="displayUserNum" class="cwInput cwReadonly" th:value="${session.loginNum}" readonly>
+                </div>
+
+                <div class="cwField">
+                    <label for="displayUserEmail">사용자 이메일</label>
+                    <input type="text" id="displayUserEmail" class="cwInput cwReadonly" th:value="${session.loginUser}" readonly>
+                </div>
+            </div>
+
+            <div class="cwField">
+                <label for="category">카테고리</label>
+                <select id="category" th:field="*{category}" class="cwInput">
+                    <option value="">카테고리를 선택해주세요</option>
+                    <option value="반도체·AI">반도체·AI</option>
+                    <option value="2차전지">2차전지</option>
+                    <option value="제약·바이오">제약·바이오</option>
+                    <option value="금융·밸류업">금융·밸류업</option>
+                    <option value="방산·우주항공">방산·우주항공</option>
+                    <option value="IT·플랫폼">IT·플랫폼</option>
+                    <option value="엔터·미디어">엔터·미디어</option>
+                    <option value="자동차·모빌리티">자동차·모빌리티</option>
+                    <option value="자유게시판">자유게시판</option>
+                    <option value="초보질문">초보질문</option>
+                    <option value="종목토론">종목토론</option>
+                    <option value="시장이슈">시장이슈</option>
+                </select>
+            </div>
+
+            <div class="cwField">
+                <label for="title">제목</label>
+                <input type="text"
+                       id="title"
+                       th:field="*{title}"
+                       class="cwInput"
+                       placeholder="제목을 입력해주세요">
+            </div>
+
+            <div class="cwField">
+                <label for="content">내용</label>
+                <textarea id="content"
+                          th:field="*{content}"
+                          class="cwTextarea"
+                          placeholder="내용을 입력해주세요"></textarea>
+            </div>
+
+            <div class="cwField">
+                <label for="tagNames">태그</label>
+                <input type="text" id="tagNames" th:field="*{tagNames}" class="cwInput" placeholder="예: #네이버 #AI #반도체">
+                <small class="cwHint">샵(#)을 붙여 입력하세요. 예: #네이버 #AI</small>
+            </div>
+
+            <div class="cwField">
+                <div class="newsDataLink">
+                    <label for="newsKeyword">관련 뉴스</label>
+                    <input type="text" id="newsKeyword" placeholder="관련 뉴스를 검색하세요">
+
+                    <div id="newsSearchResult"></div>
+
+                    <div id="selectedNewsBox"
+                         th:data-initial-link="${dto.news_link}"
+                         th:data-initial-title="${selectedNewsTitle}"></div>
+                    <input type="hidden" name="news_link" id="newsLink" th:value="${dto.news_link}">
+                </div>
+            </div>
+
+            <div class="cwButtonRow">
+                <a th:href="@{/community}" class="cwCancelBtn">취소</a>
+                <button type="submit" id="cwSubmitBtn" class="cwSubmitBtn" disabled>수정</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>이메일 찾기</title>
+
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/findEmail.css}">
+
+    <script type="text/javascript" th:src="@{/js/findEmail.js}" defer></script>
+</head>
+<body>
+
+<div th:replace="fragments/guestHeader :: guestHeader('findEmail')"></div>
+
+<div class="recoveryPage">
+    <div class="recoveryWrap">
+        <div class="recoveryCard">
+
+            <!-- 입력 화면 -->
+            <section class="panel panel-search" th:if="${maskedEmail == null}">
+                <div class="panelHead">
+                    <h1 class="panelTitle">이메일 찾기</h1>
+                    <p class="panelDesc">가입 시 입력한 이름과 전화번호를 입력해주세요.</p>
+                </div>
+
+                <form id="findEmailForm"
+                      name="findEmailForm"
+                      th:action="@{/findEmail}"
+                      method="post"
+                      onsubmit="return validateFindEmailForm();">
+
+                    <div class="fieldGroup">
+                        <label for="userName" class="fieldLabel">이름</label>
+                        <input type="text"
+                               id="userName"
+                               name="userName"
+                               class="textField"
+                               placeholder="이름 입력"
+                               th:value="${param.userName}">
+                    </div>
+
+                    <div class="fieldGroup">
+                        <label for="userPhone" class="fieldLabel">전화번호</label>
+                        <input type="text"
+                               id="userPhone"
+                               name="userPhone"
+                               class="textField"
+                               placeholder="전화번호 입력"
+                               maxlength="13"
+                               inputmode="numeric"
+                               th:value="${param.userPhone}">
+                    </div>
+
+                    <p class="messageText errorText"
+                       id="findEmailMessage"
+                       th:text="${errorMessage}"></p>
+
+                    <button type="submit" class="primaryBtn">이메일 찾기</button>
+                </form>
+
+                <div class="subLinkRow">
+                    <a th:href="@{/login}">로그인</a>
+                    <span>|</span>
+                    <a th:href="@{/findPassword}">비밀번호 찾기</a>
+                    <span>|</span>
+                    <a th:href="@{/register}">회원가입</a>
+                </div>
+            </section>
+
+            <!-- 결과 화면 -->
+            <section class="panel panel-result" th:if="${maskedEmail != null}">
+                <div class="panelHead">
+                    <h1 class="panelTitle">이메일 찾기 완료</h1>
+                    <p class="panelDesc">회원님의 이메일 정보입니다.</p>
+                </div>
+
+                <div class="resultBox">
+                    <div class="resultBadge">등록된 이메일</div>
+                    <div class="resultValue" th:text="${maskedEmail}">abc***@naver.com</div>
+                </div>
+
+                <a th:href="@{/login}" class="primaryBtn linkBtn">로그인하러 가기</a>
+            </section>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

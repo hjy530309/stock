@@ -1,0 +1,390 @@
+@charset "UTF-8";
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+    font-family: "Malgun Gothic", "맑은 고딕", Arial, sans-serif;
+    background: var(--bg-soft);
+    color: var(--primary-dark);
+}
+
+.communityWritePage {
+    width: 100%;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 26px 18px 42px;
+}
+
+.communityWriteCard {
+    background: var(--bg-card);
+    border: 1px solid #e8ebf1;
+    border-radius: 20px;
+    padding: 24px 24px 22px;
+    box-shadow: 0 8px 22px rgba(15, 23, 42, 0.04);
+}
+
+.communityWriteTop {
+    margin-bottom: 18px;
+}
+
+.communityWriteTop h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text-main);
+    letter-spacing: -0.2px;
+    line-height: 1.3;
+}
+
+.communityWriteTop p {
+    margin: 6px 0 0;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--text-light);
+}
+
+.communityWriteForm {
+    margin: 0;
+}
+
+.cwGridTwo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 16px;
+}
+
+.cwField {
+    margin-bottom: 14px;
+}
+
+.cwField label {
+    display: block;
+    margin-bottom: 7px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--primary-dark);
+    line-height: 1.35;
+}
+
+.cwInput {
+    width: 100%;
+    height: 44px;
+    border: 1px solid #d9dee8;
+    border-radius: 12px;
+    padding: 0 14px;
+    font-size: 13px;
+    color: var(--text-main);
+    background: var(--bg-card);
+    outline: none;
+    box-shadow: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.cwInput::placeholder {
+    color: #c0c6d1;
+}
+
+select.cwInput {
+    cursor: pointer;
+    padding-right: 40px;
+    background-image:
+        linear-gradient(45deg, transparent 50%, #b4bac6 50%),
+        linear-gradient(135deg, #b4bac6 50%, transparent 50%);
+    background-position:
+        calc(100% - 20px) calc(50% - 3px),
+        calc(100% - 14px) calc(50% - 3px);
+    background-size: 6px 6px, 6px 6px;
+    background-repeat: no-repeat;
+}
+
+.cwInput:hover,
+.cwTextarea:hover,
+.newsDataLink input[type="text"]:hover {
+    border-color: #c7ceda;
+}
+
+.cwInput:focus,
+.cwTextarea:focus,
+.newsDataLink input[type="text"]:focus {
+    border-color: var(--primary-dark);
+    box-shadow: 0 0 0 4px var(--primary-dark-soft);
+    background: var(--bg-card);
+}
+
+.cwReadonly {
+    background: var(--bg-card);
+    color: var(--text-muted);
+}
+
+.cwReadonly:focus {
+    border-color: #d9dee8;
+    box-shadow: none;
+}
+
+.cwTextarea {
+    width: 100%;
+    min-height: 150px;
+    border: 1px solid #d9dee8;
+    border-radius: 12px;
+    padding: 13px 14px;
+    resize: vertical;
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--text-main);
+    background: var(--bg-card);
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.cwTextarea::placeholder {
+    color: #c0c6d1;
+}
+
+.cwHint {
+    display: block;
+    margin-top: 5px;
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.45;
+}
+
+.newsDataLink {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 2px;
+    width: 100%;
+}
+
+.newsDataLink label {
+    margin: 0;
+    color: var(--primary-dark);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.newsDataLink input[type="text"] {
+    width: 100%;
+    height: 44px;
+    padding: 0 14px;
+    border: 1px solid #d8dfec;
+    border-radius: 12px;
+    background: var(--bg-card);
+    font-size: 13px;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+#newsSearchResult {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.newsSearchItem {
+    width: 100%;
+    display: block;
+    border: 1px solid #e2e8f3;
+    border-radius: 12px;
+    background: var(--bg-card);
+    padding: 11px 13px;
+    text-align: left;
+    box-sizing: border-box;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    box-shadow: 0 4px 12px rgba(21, 22, 77, 0.04);
+}
+
+.newsSearchItem:hover {
+    border-color: var(--primary-mid);
+    background: #fbfcff;
+}
+
+.newsSearchItem strong {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--primary-dark);
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.45;
+}
+
+.newsSearchItem span {
+    display: block;
+    color: var(--text-light);
+    font-size: 12px;
+    line-height: 1.45;
+}
+
+.newsEmptyMessage {
+    padding: 11px 13px;
+    border: 1px dashed #d8dfec;
+    border-radius: 12px;
+    background: var(--bg-card);
+    color: var(--text-light);
+    font-size: 12px;
+    line-height: 1.45;
+}
+
+#selectedNewsBox {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.selectedNewsTag {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: var(--primary-main-soft);
+    color: var(--primary-dark);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.selectedNewsRemove {
+    border: none;
+    background: transparent;
+    color: var(--primary-mid);
+    font-size: 14px;
+    font-weight: 800;
+    cursor: pointer;
+    padding: 0;
+}
+
+.cwButtonRow {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+}
+
+.cwCancelBtn,
+.cwSubmitBtn {
+    min-width: 76px;
+    height: 42px;
+    padding: 0 16px;
+    border-radius: 10px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+.cwCancelBtn {
+    cursor: pointer;
+    border: 1px solid #d9dee8;
+    background: var(--bg-card);
+    color: var(--text-sub);
+    box-shadow: none;
+}
+
+.cwSubmitBtn {
+    cursor: not-allowed;
+    background: #d9d9d9;
+    color: var(--white);
+    box-shadow: none;
+}
+
+.cwSubmitBtn.isReady,
+.cwSubmitBtn:enabled {
+    cursor: pointer;
+    background: var(--primary-mid);
+    box-shadow: 0 8px 18px rgba(49, 130, 246, 0.22);
+}
+
+.cwSubmitBtn.isSubmitting {
+    cursor: wait;
+    background: var(--primary-mid);
+    color: var(--white);
+    box-shadow: 0 8px 18px rgba(49, 130, 246, 0.22);
+    opacity: 0.96;
+}
+
+.cwCancelBtn:hover {
+    background: var(--bg-soft);
+    color: var(--text-main);
+    transform: translateY(-1px);
+}
+
+.cwSubmitBtn.isReady:hover,
+.cwSubmitBtn:enabled:hover {
+    background: var(--primary-mid);
+    color: var(--white);
+    filter: brightness(0.97);
+    transform: translateY(-1px);
+}
+
+.cwCancelBtn:active {
+    transform: translateY(0);
+}
+
+.cwSubmitBtn:active {
+    transform: translateY(0);
+}
+
+.cwSubmitBtn:disabled:hover {
+    background: #d9d9d9;
+    color: var(--white);
+    filter: none;
+    transform: none;
+}
+
+@media screen and (max-width: 900px) {
+    .communityWritePage {
+        max-width: 100%;
+        padding: 18px 16px 34px;
+    }
+
+    .communityWriteCard {
+        padding: 20px 18px 18px;
+    }
+
+    .cwGridTwo {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .communityWritePage {
+        padding: 14px 12px 26px;
+    }
+
+    .communityWriteCard {
+        padding: 18px 14px 16px;
+        border-radius: 16px;
+    }
+
+    .communityWriteTop h2 {
+        font-size: 18px;
+    }
+
+    .cwTextarea {
+        min-height: 130px;
+        font-size: 13px;
+    }
+
+    .cwButtonRow {
+        margin-top: 18px;
+    }
+}

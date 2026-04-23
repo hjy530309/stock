@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 상세보기</title>
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/community/detail.css}">
+</head>
+<body class="withMainHeader">
+<div th:replace="~{fragments/header :: header('community')}"></div>
+
+<div class="pageContainer">
+    <div class="detailLayout">
+
+        <div class="detailMain">
+            <section class="postCard" th:if="${dto != null}">
+                <div class="postTop">
+                    <h1 class="postTitle" th:text="${dto.title}">제목</h1>
+                    <span class="categoryBadge" th:text="${dto.category}">카테고리</span>
+                </div>
+
+                <div th:if="${dto.tagNames != null and !#strings.isEmpty(dto.tagNames)}" class="detailTags">
+                    <div class="detailTagList">
+                        <span class="detailTag"
+                              th:each="tag : ${#strings.arraySplit(dto.tagNames, ', ')}"
+                              th:text="${'#' + tag}"></span>
+                    </div>
+                </div>
+
+                <div class="postWriterRow">
+                    <div class="writerInfo">
+                        <div class="writerAvatar"
+                             th:text="${#strings.substring(dto.displayName, 0, 1)}">y</div>
+
+                        <div class="writerMeta">
+                            <strong th:text="${dto.displayName}">ya</strong>
+                            <span th:text="${#dates.format(dto.created_at, 'yyyy-MM-dd HH:mm') + ' · 조회 ' + dto.view_count}">
+                                2026-04-07 01:43 · 조회 45
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="postActionButtons">
+                        <div class="moreMenuWrap">
+                            <button type="button" class="moreMenuButton" onclick="toggleMoreMenu()">
+                                ⋮
+                            </button>
+
+                            <div class="moreMenuDropdown" id="moreMenuDropdown">
+                                <button type="button"
+                                        class="moreMenuItem"
+                                        th:if="${isOwner}"
+                                        th:onclick="|location.href='@{/community/update(board_id=${dto.board_id})}'|">
+                                    수정하기
+                                </button>
+
+                                <button type="button" class="moreMenuItem disabled" th:if="${!isOwner}" disabled>
+                                    수정하기
+                                </button>
+
+                                <form th:if="${isOwner}"
+                                      class="postDeleteForm"
+                                      th:action="@{/community/delete}" method="post"
+                                      onsubmit="return confirm('정말 삭제하시겠습니까?');">
+                                    <input type="hidden" name="board_id" th:value="${dto.board_id}">
+                                    <button type="submit" class="moreMenuItem danger">삭제하기</button>
+                                </form>
+
+                                <button type="button" class="moreMenuItem disabled" th:if="${!isOwner}" disabled>
+                                    삭제하기
+                                </button>
+                            </div>
+                        </div>
+
+                        <button type="button"
+                                class="likeButton"
+                                id="likeButton"
+                                th:data-board-id="${dto.board_id}"
+                                th:classappend="${likedByMe} ? ' active' : ''">
+                            <span>♡</span>
+                            <strong id="likeCount" th:text="${dto.like_count}">0</strong>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="relatedNewsInline" th:if="${relatedNewsTitle != null}">
+                    <span class="relatedNewsLabel">관련 뉴스</span>
+                    <a th:href="${dto.news_link}" target="_blank" th:text="${relatedNewsTitle}">뉴스 제목</a>
+                </div>
+
+                <div class="postContent" th:text="${dto.content}"></div>
+
+                <div class="postBottom">
+                    <span th:text="'조회 ' + ${dto.view_count}">조회 0</span>
+                    <span id="bottomLikeCount" th:text="'좋아요 ' + ${dto.like_count}">좋아요 0</span>
+                    <span th:text="'댓글 ' + ${commentCount}">댓글 0</span>
+                    <span th:text="'작성일 ' + ${#dates.format(dto.created_at, 'yyyy-MM-dd HH:mm')}">작성일</span>
+                </div>
+            </section>
+
+            <section class="commentCard">
+                <h2 class="commentTitle" th:text="'댓글 ' + ${commentCount} + '개'">댓글 0개</h2>
+
+                <form class="commentWriteBox" th:action="@{/community/comment/insert}" method="post">
+                    <input type="hidden" name="board_id" th:value="${dto.board_id}">
+
+                    <div class="commentAvatar"
+                         th:text="${session.loginUser != null ? #strings.substring(#strings.arraySplit(session.loginUser, '@')[0], 0, 1) : 'y'}">y</div>
+
+                    <div class="commentInputArea">
+                        <textarea name="content" maxlength="1000" placeholder="댓글을 입력하세요..." required></textarea>
+                        <div class="commentWriteBottom">
+                            <span>0/1000</span>
+                            <button type="submit" class="commentSubmitButton">댓글 작성</button>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="commentEmpty" th:if="${commentCount == 0}">
+                    아직 댓글이 없습니다.
+                </div>
+
+                <div class="commentList" th:if="${commentCount > 0}">
+                    <div class="commentItem" th:each="comment : ${comments}">
+                        <div class="commentAvatar"
+                             th:text="${#strings.substring(comment.displayName, 0, 1)}">y</div>
+
+                        <div class="commentBody">
+                            <div class="commentMetaRow">
+                                <div class="commentMeta">
+                                    <strong th:text="${comment.displayName}">ya</strong>
+                                    <span th:text="${#dates.format(comment.created_at, 'yyyy-MM-dd HH:mm')}">2026-04-07 01:43</span>
+                                </div>
+
+                                <div class="commentMoreMenuWrap" th:if="${session.loginNum == comment.user_num}">
+                                    <button type="button"
+                                            class="commentMoreMenuButton"
+                                            th:onclick="|toggleCommentMenu(${comment.comment_id})|">
+                                        ⋮
+                                    </button>
+
+                                    <div class="commentMoreMenuDropdown"
+                                         th:id="|commentMenu-${comment.comment_id}|">
+                                        <button type="button"
+                                                class="commentMoreMenuItem"
+                                                th:onclick="|toggleCommentEdit(${comment.comment_id})|">
+                                            수정하기
+                                        </button>
+
+                                        <form th:action="@{/community/comment/delete}"
+                                              method="post"
+                                              onsubmit="return confirm('댓글을 삭제하시겠습니까?');">
+                                            <input type="hidden" name="comment_id" th:value="${comment.comment_id}">
+                                            <button type="submit" class="commentMoreMenuItem danger">삭제하기</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <p class="commentText"
+                               th:id="|commentText-${comment.comment_id}|"
+                               th:text="${comment.content}">댓글 내용</p>
+
+                            <form class="commentEditForm"
+                                  th:id="|commentEditForm-${comment.comment_id}|"
+                                  th:action="@{/community/comment/update}"
+                                  method="post"
+                                  style="display:none;">
+                                <input type="hidden" name="comment_id" th:value="${comment.comment_id}">
+                                <textarea name="content" maxlength="1000" th:text="${comment.content}" required></textarea>
+
+                                <div class="commentActionRow">
+                                    <button type="submit" class="commentActionBtn">저장</button>
+                                    <button type="button"
+                                            class="commentActionBtn ghost"
+                                            th:onclick="|toggleCommentEdit(${comment.comment_id})|">
+                                        취소
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <aside class="detailSide">
+            <section class="sideCard profileCard">
+                <div class="profileTop">
+                    <div class="profileAvatar" th:text="${#strings.substring(dto.displayName, 0, 1)}">y</div>
+                    <div class="profileInfo">
+                        <strong th:text="${dto.displayName}">ya</strong>
+                        <span>커뮤니티 활동 중</span>
+                    </div>
+                </div>
+
+                <div class="profileStats">
+                    <div class="profileStatRow">
+                        <span>게시글</span>
+                        <strong th:text="${userArticleCount} + '개'">0개</strong>
+                    </div>
+                    <div class="profileStatRow">
+                        <span>댓글</span>
+                        <strong th:text="${userCommentCount} + '개'">0개</strong>
+                    </div>
+
+                    <a class="profileActivityBtn"
+                       th:href="@{/community/activity(user_num=${dto.user_num}, tab='posts')}"
+                       th:text="${isOwner} ? '내 활동 보기' : '작성자 활동 보기'">
+                        작성자 활동 보기
+                    </a>
+                </div>
+            </section>
+
+            <section class="sideCard relatedCard">
+                <div class="relatedCardHeader">
+                    <h3>같은 카테고리 인기글</h3>
+                    <p th:text="|${dto.category}에서 반응이 높은 글이에요|">
+                        지금 보고 있는 글과 같은 주제에서 반응이 높은 글이에요
+                    </p>
+                </div>
+
+                <div th:if="${popularSameCategoryPosts != null and !#lists.isEmpty(popularSameCategoryPosts)}">
+                    <a th:each="post : ${popularSameCategoryPosts}"
+                       th:href="@{/community/detail(board_id=${post.board_id})}"
+                       class="relatedItem">
+                        <strong th:text="${post.title}">게시글 제목</strong>
+                        <span th:text="|조회 ${post.view_count} · 좋아요 ${post.like_count} · 댓글 ${post.comment_count}|">
+                    조회 0 · 좋아요 0 · 댓글 0
+                </span>
+                    </a>
+                </div>
+
+                <div class="relatedEmpty"
+                     th:if="${popularSameCategoryPosts == null or #lists.isEmpty(popularSameCategoryPosts)}">
+                    아직 같은 카테고리 인기글이 없습니다.
+                </div>
+            </section>
+
+
+            <section class="sideCard analysisCard">
+                <h3>AI 종합 분석</h3>
+                <p>AI 분석 결과를 확인해보세요</p>
+                <a th:href="@{/stock}" class="analysisLink">자세히 보기</a>
+            </section>
+        </aside>
+
+    </div>
+</div>
+
+<script th:src="@{/js/community/detail.js}"></script>
+</body>
+</html>

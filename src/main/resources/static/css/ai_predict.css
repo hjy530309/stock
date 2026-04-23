@@ -1,0 +1,302 @@
+/* ================================================================
+   AI 주가 영향도 예측 패널 — stock.html .analysisBox 내부
+   stock.css에 @import 하거나 <link> 추가
+   ================================================================ */
+:root {
+    --text-primary: #222; /* 여기서 실제 색상을 정해줍니다 */
+    --text-secondary: #888;
+    --gauge-bg: #f0f0f0;
+    --text-tertiary: #aaa;
+}
+
+.aiPredictPanel {
+    margin-top: 14px;
+    padding: 14px;
+    border-top: 1px solid var(--border-color, #e8e8e8);
+    border-radius: 0 0 10px 10px;
+}
+
+.aiRotatorPanel {
+    margin-top: 0;
+    padding: 18px 18px 16px;
+    border: 1px solid var(--border-color, #e5e7eb);
+    border-radius: 24px;
+    background: var(--bg-card, #fff);
+    box-shadow: var(--shadow, 0 4px 16px rgba(14,15,55,0.07));
+}
+
+.aiPredictHeader {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.aiPredictTitle {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--text-primary, #222);
+}
+
+.aiRotatorNavGroup {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: auto;
+    flex-shrink: 0;
+}
+
+.aiRotatorNav {
+    width: 28px;
+    height: 28px;
+    border: 1px solid var(--border-color, #e5e7eb);
+    border-radius: 999px;
+    background: var(--bg-card, #fff);
+    color: var(--text-primary, #222);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 1;
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+}
+
+.aiRotatorNav:hover:not(:disabled) {
+    border-color: #1D4F91;
+    color: #1D4F91;
+}
+
+.aiRotatorNav:disabled {
+    opacity: 0.45;
+    cursor: default;
+}
+
+.aiRotatorPage {
+    min-width: 42px;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-secondary, #888);
+}
+
+.aiPredictSubject {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-secondary, #888);
+    margin-bottom: 10px;
+}
+.aiPredictSubject.is-hidden {
+    display: none;
+}
+
+.aiPredictBadge {
+    font-size: 12px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+}
+
+.aiPredictBadge.badge-up   { background: #EAF3DE; color: #27500A; }
+.aiPredictBadge.badge-down { background: #FCEBEB; color: #791F1F; }
+.aiPredictBadge.badge-info { background: #EAF1FF; color: #1D4F91; }
+.aiPredictBadge.badge-neutral { background: #F1EFE8; color: #5F5E5A; }
+.aiPredictBadge.badge-subtle {
+    padding: 0;
+    border-radius: 0;
+    background: transparent;
+    color: var(--text-secondary, #888);
+}
+
+/* 방향 + 확률 */
+.aiPredictMain {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.aiPredictArrow {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.aiPredictArrow.arrow-up   { background: #EAF3DE; color: #27500A; }
+.aiPredictArrow.arrow-down { background: #FCEBEB; color: #791F1F; }
+.aiPredictArrow.arrow-neutral { background: #F1EFE8; color: #5F5E5A; }
+
+.aiPredictProb {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-primary, #222);
+}
+
+.aiPredictHeadline {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-primary, #222);
+}
+
+.aiPredictConf {
+    font-size: 12px;
+    color: var(--text-secondary, #888);
+    margin-top: 2px;
+}
+
+.aiPredictDivider {
+    height: 1px;
+    background: rgba(0, 0, 0, 0.08);
+    margin: 0 0 12px;
+}
+
+/* 예측 근거 게이지 */
+.aiPredictFactors {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.aiPredictFactor {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.factorLabel {
+    font-size: 11px;
+    color: var(--text-secondary, #888);
+    width: 90px;
+    flex-shrink: 0;
+}
+
+.factorBar {
+    flex: 1;
+    height: 5px;
+    background: var(--gauge-bg, #f0f0f0);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.factorFill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.6s ease;
+}
+
+.factorFill.fill-pos { background: #639922; }
+.factorFill.fill-neg { background: #E24B4A; }
+.factorFill.fill-neutral { background: #9CA3AF; }
+
+.factorVal {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-primary, #222);
+    width: 62px;
+    text-align: right;
+    flex-shrink: 0;
+}
+
+.factorVal.positive { color: #27500A; }
+.factorVal.negative { color: #A22929; }
+.factorVal.neutral { color: #5F5E5A; }
+
+/* 최근 기사 */
+.aiRecentNews {
+    margin-bottom: 10px;
+}
+
+.aiRecentTitle {
+    font-size: 11px;
+    color: var(--text-secondary, #888);
+    margin-bottom: 6px;
+}
+
+.aiRecentItem {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    margin-bottom: 5px;
+    font-size: 11px;
+    line-height: 1.4;
+}
+
+.aiRecentSent {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 1px 5px;
+    border-radius: 4px;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.aiRecentSent.sent-pos { background: #EAF3DE; color: #27500A; }
+.aiRecentSent.sent-neg { background: #FCEBEB; color: #791F1F; }
+.aiRecentSent.sent-neu { background: #F1EFE8; color: #5F5E5A; }
+
+.aiRecentItemTitle {
+    color: var(--text-primary, #333);
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+
+/* 메타 */
+.aiPredictMeta {
+    font-size: 10px;
+    color: var(--text-tertiary, #aaa);
+    text-align: right;
+    margin-top: 8px;
+}
+
+/* 예측 불가 상태 */
+.aiPredictEmpty {
+    text-align: center;
+    padding: 20px 14px;
+    color: var(--text-secondary, #888);
+    font-size: 12px;
+}
+
+/* 다크모드 */
+body.dark .aiPredictBadge.badge-up   { background: #1a2e10; color: #9FE1CB; }
+body.dark .aiPredictBadge.badge-down { background: #2e1010; color: #F09595; }
+body.dark .aiPredictBadge.badge-info { background: rgba(59,130,246,0.18); color: #93c5fd; }
+body.dark .aiPredictBadge.badge-neutral { background: #2a2a2a; color: #aaa; }
+body.dark .aiRotatorPanel            { background: var(--bg-card, #141720); border-color: var(--border-color, #2d3142); box-shadow: var(--shadow, 0 4px 16px rgba(0,0,0,0.4)); }
+body.dark .aiRotatorNav              { background: var(--bg-card, #141720); border-color: var(--border-color, #2d3142); color: var(--text-primary, #f1f5f9); }
+body.dark .aiRotatorNav:hover:not(:disabled) { border-color: #93c5fd; color: #93c5fd; }
+body.dark .aiPredictArrow.arrow-up   { background: #1a2e10; color: #9FE1CB; }
+body.dark .aiPredictArrow.arrow-down { background: #2e1010; color: #F09595; }
+body.dark .aiPredictArrow.arrow-neutral { background: #2a2a2a; color: #aaa; }
+body.dark .aiPredictBadge.badge-subtle { background: transparent; color: var(--text-secondary, #aaa); }
+body.dark .aiRecentSent.sent-pos     { background: #1a2e10; color: #9FE1CB; }
+body.dark .aiRecentSent.sent-neg     { background: #2e1010; color: #F09595; }
+body.dark .aiRecentSent.sent-neu     { background: #2a2a2a; color: #aaa; }
+body.dark .aiPredictDivider          { background: rgba(255,255,255,0.08); }
+body.dark .factorVal.positive        { color: #9FE1CB; }
+body.dark .factorVal.negative        { color: #F09595; }
+body.dark .factorVal.neutral         { color: #aaa; }
+
+@media (max-width: 480px) {
+    .aiPredictHeader {
+        align-items: flex-start;
+    }
+
+    .aiRotatorNavGroup {
+        gap: 4px;
+    }
+
+    .aiRotatorPage {
+        min-width: 36px;
+        font-size: 10px;
+    }
+}

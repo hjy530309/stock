@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>커뮤니티 활동</title>
+    <link rel="stylesheet" th:href="@{/css/color.css}">
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/community/list.css}">
+    <link rel="stylesheet" th:href="@{/css/community/detail.css}">
+    <link rel="stylesheet" th:href="@{/css/community/activity.css}">
+</head>
+<body class="withMainHeader">
+<div th:replace="~{fragments/header :: header('community')}"></div>
+
+<div class="pageContainer communityPage activityPage">
+    <div class="communityMain right-empty activityMain">
+        <aside class="communitySidebar">
+            <section class="sideCard profileCard activityProfileCard">
+                <div class="profileTop">
+                    <div class="profileAvatar"
+                         th:text="${activityUser.email != null ? #strings.substring(#strings.arraySplit(activityUser.email, '@')[0], 0, 1) : #strings.substring(activityUser.name, 0, 1)}">
+                        y
+                    </div>
+                    <div class="profileInfo">
+                        <strong th:text="${activityUser.email != null ? #strings.arraySplit(activityUser.email, '@')[0] : activityUser.name}">
+                            lyh1234
+                        </strong>
+                        <span>커뮤니티 활동 중</span>
+                    </div>
+                </div>
+
+                <div class="profileStats">
+                    <div class="profileStatRow">
+                        <span>게시글</span>
+                        <strong th:text="${articleCount} + '개'">0개</strong>
+                    </div>
+                    <div class="profileStatRow">
+                        <span>내 댓글</span>
+                        <strong th:text="${myCommentCount} + '개'">0개</strong>
+                    </div>
+                    <div class="profileStatRow">
+                        <span>받은 댓글</span>
+                        <strong th:text="${receivedCommentCount} + '개'">0개</strong>
+                    </div>
+                </div>
+            </section>
+
+            <div class="sidebarCard">
+                <div class="sidebarHeader">
+                    <h3>활동 필터</h3>
+                </div>
+
+                <div class="categoryNav categoryAccordion">
+                    <div class="accordionItem open">
+                        <button type="button" class="accordionButton">
+                            <span>활동 종류</span>
+                            <span class="accordionArrow">⌃</span>
+                        </button>
+
+                        <div class="accordionContent">
+                            <a class="navItem"
+                               th:classappend="${currentTab == 'posts'} ? ' active' : ''"
+                               th:href="@{/community/activity(user_num=${targetUserNum}, tab='posts', category=${selectedCategory})}">
+                                <span class="navLabel">내가 쓴 글</span>
+                            </a>
+
+                            <a class="navItem"
+                               th:classappend="${currentTab == 'comments'} ? ' active' : ''"
+                               th:href="@{/community/activity(user_num=${targetUserNum}, tab='comments', category=${selectedCategory})}">
+                                <span class="navLabel">내가 쓴 댓글</span>
+                            </a>
+
+                            <a class="navItem"
+                               th:classappend="${currentTab == 'replies'} ? ' active' : ''"
+                               th:href="@{/community/activity(user_num=${targetUserNum}, tab='replies', category=${selectedCategory})}">
+                                <span class="navLabel">내 글에 달린 댓글</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="accordionItem open themeAccordion">
+                        <button type="button" class="accordionButton">
+                            <span>카테고리</span>
+                            <span class="accordionArrow">⌃</span>
+                        </button>
+
+                        <div class="accordionContent activityCategoryContent">
+                            <a class="navItem"
+                               th:classappend="${selectedCategory == 'all'} ? ' active' : ''"
+                               th:href="@{/community/activity(user_num=${targetUserNum}, tab=${currentTab}, category='all')}">
+                                <span class="navLabel">전체</span>
+                            </a>
+
+                            <a class="navItem"
+                               th:each="cat : ${activityCategories}"
+                               th:classappend="${selectedCategory == cat} ? ' active' : ''"
+                               th:href="@{/community/activity(user_num=${targetUserNum}, tab=${currentTab}, category=${cat})}">
+                                <span class="navLabel" th:text="${cat}">카테고리</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <section class="communityContent">
+            <div class="contentTop">
+                <div class="contentWrap">
+                    <h2 th:text="${isMyActivity} ? '내 커뮤니티 활동' : (${activityUser.email != null ? #strings.arraySplit(activityUser.email, '@')[0] : activityUser.name} + '님의 활동')">
+                        내 커뮤니티 활동
+                    </h2>
+                    <p class="contentDesc">작성한 글, 댓글, 내 글에 달린 댓글을 확인할 수 있습니다.</p>
+                </div>
+            </div>
+
+            <div class="boardList" th:if="${currentTab == 'posts'}">
+                <article class="boardItem" th:each="post : ${activityPosts}">
+                    <a class="boardLink" th:href="@{/community/detail(board_id=${post.board_id})}">
+                        <div class="boardTopRow">
+                            <span class="boardCategory" th:text="${post.category}">카테고리</span>
+                        </div>
+
+                        <h3 class="boardTitle" th:text="${post.title}">제목</h3>
+                        <p class="boardPreview" th:text="${post.content}">내용</p>
+
+                        <div class="boardBottom">
+                            <div class="boardMeta">
+                                <span th:text="|작성자 ${post.displayName}|">작성자</span>
+                                <span th:text="${#dates.format(post.created_at, 'yyyy-MM-dd HH:mm')}">2026-04-16 00:00</span>
+                            </div>
+                            <div class="boardStats">
+                                <span th:text="'조회 ' + ${post.view_count}">조회 0</span>
+                                <span th:text="'좋아요 ' + ${post.like_count}">좋아요 0</span>
+                                <span th:text="'댓글 ' + ${post.comment_count}">댓글 0</span>
+                            </div>
+                        </div>
+                    </a>
+                </article>
+
+                <div class="emptyState" th:if="${#lists.isEmpty(activityPosts)}">
+                    작성한 게시글이 없습니다.
+                </div>
+            </div>
+
+            <div th:if="${currentTab == 'comments'}">
+                <a class="activityCommentLinkCard"
+                   th:each="comment : ${activityComments}"
+                   th:href="@{/community/detail(board_id=${comment.board_id})}">
+                    <div class="commentItem activityCommentCard">
+                        <div class="commentBody">
+                            <div class="commentMetaRow">
+                                <div class="commentMeta">
+                                    <strong th:text="${comment.boardTitle}">게시글 제목</strong>
+                                    <span th:text="${#dates.format(comment.created_at, 'yyyy-MM-dd HH:mm')}">2026-04-16 00:00</span>
+                                </div>
+                                <span class="activityCommentMove">원문 보기</span>
+                            </div>
+
+                            <p class="commentText" th:text="${comment.content}">댓글 내용</p>
+                        </div>
+                    </div>
+                </a>
+
+                <div class="emptyState" th:if="${#lists.isEmpty(activityComments)}">
+                    작성한 댓글이 없습니다.
+                </div>
+            </div>
+
+            <div th:if="${currentTab == 'replies'}">
+                <div class="commentItem activityReplyCard" th:each="reply : ${activityReplies}">
+                    <div class="commentBody">
+                        <div class="commentMetaRow">
+                            <div class="commentMeta">
+                                <strong th:text="${reply.boardTitle}">게시글 제목</strong>
+                                <span th:text="${reply.displayName + ' · ' + #dates.format(reply.created_at, 'yyyy-MM-dd HH:mm')}">
+            작성자
+          </span>
+                            </div>
+
+                            <div class="commentMoreMenuWrap">
+                                <button type="button"
+                                        class="commentMoreMenuButton"
+                                        th:onclick="|toggleActivityCommentMenu(${reply.comment_id})|">
+                                    ⋮
+                                </button>
+
+                                <div class="commentMoreMenuDropdown"
+                                     th:id="|activityCommentMenu-${reply.comment_id}|">
+                                    <a th:href="@{/community/detail(board_id=${reply.board_id})}"
+                                       class="commentMoreMenuItem commentMoreMenuLink">
+                                        원문 보기
+                                    </a>
+
+                                    <form th:if="${isMyActivity}"
+                                          th:action="@{/community/comment/delete}"
+                                          method="post"
+                                          class="commentMoreMenuForm"
+                                          onsubmit="return confirm('댓글을 삭제할까요?');">
+                                        <input type="hidden" name="comment_id" th:value="${reply.comment_id}">
+                                        <input type="hidden" name="returnUrl"
+                                               th:value="|/community/activity?user_num=${targetUserNum}&tab=${currentTab}&category=${selectedCategory}|">
+                                        <button type="submit" class="commentMoreMenuItem danger">삭제</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p class="commentText" th:text="${reply.content}">댓글 내용</p>
+                    </div>
+                </div>
+
+                <div class="emptyState" th:if="${#lists.isEmpty(activityReplies)}">
+                    아직 내 글에 달린 댓글이 없습니다.
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<script th:src="@{/js/community/activity.js}"></script>
+</body>
+</html>

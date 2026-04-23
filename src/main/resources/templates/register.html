@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입</title>
+
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/register.css}">
+
+    <script type="text/javascript" th:src="@{/js/jquery.js}"></script>
+    <script type="text/javascript" th:src="@{/js/register.js}"></script>
+</head>
+
+<body>
+
+<div th:replace="fragments/guestHeader :: guestHeader('register')"></div>
+
+<div class="page">
+    <div class="registerWrap">
+        <div class="registerLayout">
+
+            <div class="introPanel">
+                <div class="introTop">
+                    <div class="introBadge">AI 기반 투자 인사이트 플랫폼</div>
+
+                    <h1 class="introTitle">
+                        신뢰할 수 있는<br>
+                        투자 판단의 시작
+                    </h1>
+
+                    <p class="introDesc">
+                        실시간 금융 뉴스와 시장 이슈를 분석하여
+                        중요한 흐름을 빠르게 파악하고,
+                        더 신뢰도 있는 투자 판단에 도움을 줄 수 있는 정보를 제공합니다.
+                    </p>
+
+                    <div class="introStatWrap">
+                        <div class="introStat">
+                            <p class="introStatValue">24H</p>
+                            <p class="introStatLabel">실시간 시장 이슈 반영</p>
+                        </div>
+                        <div class="introStat">
+                            <p class="introStatValue">AI</p>
+                            <p class="introStatLabel">뉴스·감성 분석 기반</p>
+                        </div>
+                        <div class="introStat">
+                            <p class="introStatValue">COMMUNITY</p>
+                            <p class="introStatLabel">커뮤니티 정보 공유</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="introBottom">
+                    <div class="introPointWrap">
+                        <div class="introPoint">
+                            <h3 class="introPointTitle">키워드·감성 흐름 확인</h3>
+                            <p class="introPointText">
+                                시장 이슈의 주요 키워드와 긍정·부정 반응을 직관적으로 파악하여
+                                종목 흐름을 빠르게 확인할 수 있습니다.
+                            </p>
+                        </div>
+
+                        <div class="introPoint">
+                            <h3 class="introPointTitle">커뮤니티 기반 정보 공유</h3>
+                            <p class="introPointText">
+                                투자 의견과 정보를 공유하며,
+                                분석 결과를 바탕으로 다른 사용자와 소통할 수 있습니다.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="registerCard">
+                <div class="cardHead">
+                    <h1 class="cardTitle">회원가입</h1>
+                    <p class="cardDesc">
+                        StoXle과 함께 투자 정보를 더 빠르고 체계적으로 확인해보세요.
+                    </p>
+                </div>
+
+                <form name="registerForm" id="registerForm" th:action="@{/register}" method="post" onsubmit="return check();">
+
+                    <div class="field">
+                        <label for="userName" class="fieldLabel">
+                            <span class="requiredMark">*</span>이름
+                        </label>
+                        <input type="text" name="userName" id="userName" class="inputBox" placeholder="이름을 입력해주세요">
+                    </div>
+
+                    <div class="field">
+                        <label for="userEmail" class="fieldLabel">
+                            <span class="requiredMark">*</span>이메일
+                        </label>
+                        <input type="email" name="userEmail" id="userEmail" class="inputBox" placeholder="example@email.com">
+                        <p class="helpText">로그인에 사용할 이메일 주소를 입력해주세요</p>
+                    </div>
+
+                    <div class="field">
+                        <label for="userPassword" class="fieldLabel">
+                            <span class="requiredMark">*</span>비밀번호
+                        </label>
+                        <input type="password" name="userPassword" id="userPassword" class="inputBox" placeholder="숫자 5 ~ 8자리">
+                        <p class="helpText">숫자 5 ~ 8자리로 입력해주세요</p>
+                    </div>
+
+                    <div class="field">
+                        <label for="reUserPassword" class="fieldLabel">
+                            <span class="requiredMark">*</span>비밀번호 확인
+                        </label>
+                        <input type="password" name="reUserPassword" id="reUserPassword" class="inputBox" placeholder="비밀번호를 다시 입력해주세요">
+                    </div>
+
+                    <div class="field">
+                        <label for="userPhone" class="fieldLabel">
+                            <span class="requiredMark">*</span>전화번호
+                        </label>
+                        <input type="text" name="userPhone" id="userPhone" class="inputBox" placeholder="전화번호를 다시 입력해주세요">
+                    </div>
+
+                    <button type="submit" class="registerBtn">회원가입</button>
+                </form>
+
+                <div class="bottomArea">
+                    이미 계정이 있으신가요?
+                    <a th:href="@{/login}">로그인</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

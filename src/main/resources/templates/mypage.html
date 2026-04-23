@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stoxle - 설정</title>
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/color.css}">
+    <link rel="stylesheet" th:href="@{/css/asset/style.css}">
+    <link rel="stylesheet" th:href="@{/css/asset/mypage.css}">
+</head>
+
+
+<body class="withMainHeader">
+<div th:replace="~{fragments/header :: header('mypage_settings')}"></div>
+
+<div class="pageContainer">
+    <div class="app-container">
+
+        <!-- 메인 콘텐츠 -->
+        <main class="main-content">
+            <div class="content-wrapper">
+                <!-- 헤더 -->
+                <div class="page-header">
+                    <h1>설정</h1>
+                </div>
+
+                <!-- 프로필 섹션 -->
+                <div class="card settings-section">
+                    <div class="section-header">
+                        <svg class="section-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+                            <circle cx="12" cy="7" r="4"/>
+                        </svg>
+                        <div>
+                            <h3 class="section-title">프로필</h3>
+                        </div>
+                    </div>
+
+
+
+                    <div class="settings-list">
+                        <input type="hidden" id="user-num" th:value="${user.num}">
+                        <div class="settings-item" id="name-section">
+                            <div class="settings-info">
+                                <p class="settings-label">이름</p>
+                                <p class="settings-value display-mode" th:text="${user.name}">김철수</p>
+                                <input type="text" class="edit-mode" style="display:none;" th:value="${user.name}" id="input-name">
+                            </div>
+                            <!--                        <div class="button-group">-->
+                            <div class="edit-button-group">
+                                <button class="btn btn-link display-mode" onclick="toggleEdit('name')">변경</button>
+                                <button class="btn btn-save edit-mode" style="display:none;" onclick="saveEdit('name')">저장</button>
+                                <button class="btn btn-cancel edit-mode" style="display:none;" onclick="toggleEdit('name')">취소</button>
+                            </div>
+                        </div>
+                        <div class="settings-item" id="phone-section">
+                            <div class="settings-info">
+                                <p class="settings-label">전화번호</p>
+                                <p class="settings-value display-mode" th:text="${user.phone} ?: '미등록'"></p>
+                                <input type="tel" class="edit-mode" style="display:none;" th:value="${user.phone}" id="input-phone" placeholder="010-0000-0000">  <!-- placeholder="01012345678" -->
+                            </div>
+                            <div class="edit-button-group">
+                                <button class="btn btn-link display-mode" onclick="toggleEdit('phone')">변경</button>
+                                <button class="btn btn-save edit-mode" style="display:none;" onclick="saveEdit('phone')">저장</button>
+                                <button class="btn btn-cancel edit-mode" style="display:none;" onclick="toggleEdit('phone')">취소</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 알림 설정 -->
+                <div class="card settings-section">
+                    <div class="section-header">
+                        <svg class="section-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                        </svg>
+                        <div>
+                            <h3 class="section-title">알림 설정</h3>
+                        </div>
+                    </div>
+
+                    <div class="settings-list">
+                        <div class="settings-item">
+                            <div class="settings-info">
+                                <p class="settings-label">주가 등락 알림</p>
+                                <p class="settings-value">주가가 3%이상 등락할 때 알림을 받습니다</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox"
+                                       class="toggle-input"
+                                       data-type="stock"
+                                       th:checked="${user.notifyStock == 1}">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="settings-item">
+                            <div class="settings-info">
+                                <p class="settings-label">커뮤니티 댓글 알림</p>
+                                <p class="settings-value">내 게시글에 댓글이 달릴 때 알림을 받습니다</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox"
+                                       class="toggle-input"
+                                       data-type="comment"
+                                       th:checked="${user.notifyComment == 1}">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- 보안 -->
+                <div class="card settings-section">
+                    <div class="section-header">
+                        <svg class="section-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                        </svg>
+                        <div>
+                            <h3 class="section-title">계정 보안</h3>
+                        </div>
+                    </div>
+
+                    <div class="settings-list">
+                        <div class="settings-item" id="password-section"> <div class="settings-info">
+                            <p class="settings-label">비밀번호 변경</p>
+
+                            <p class="settings-value display-mode">********</p>
+                            <!--                        <p class="settings-value display-mode" style="font-size: 12px; color: #888;">마지막 변경: 2026.01.15</p>-->
+
+                            <div class="edit-mode" style="display:none; margin-top: 5px;">
+                                <input type="password" id="input-password" class="settings-edit-input" placeholder="새 비밀번호 입력">
+                            </div>
+                        </div>
+
+                            <div class="edit-button-group">
+                                <button class="btn btn-link display-mode" onclick="toggleEdit('password')">변경</button>
+                                <button class="btn btn-save edit-mode" style="display:none;" onclick="saveEdit('password')">저장</button>
+                                <button class="btn btn-cancel edit-mode" style="display:none;" onclick="toggleEdit('password')">취소</button>
+                            </div>
+                        </div>
+
+
+                        <div class="settings-item">
+                            <div class="settings-info">
+                                <p class="settings-label">회원 탈퇴</p>
+                                <p class="settings-value">모든 데이터가 영구 삭제됩니다</p>
+                            </div>
+                            <form id="withdrawForm" th:action="@{/user/withdraw}" method="post">
+                                <button type="button" class="btn btn-danger-outline" onclick="confirmWithdraw()">탈퇴하기</button>
+                            </form>
+                        </div>
+                        <script>
+                            function confirmWithdraw() {
+                                if (confirm("정말로 탈퇴하시겠습니까? 모든 데이터가 삭제되며 복구할 수 없습니다.")) {
+                                    document.getElementById('withdrawForm').submit();
+                                }
+                            }
+                        </script>
+
+                    </div>
+                </div>
+
+
+                <!-- 로그아웃 -->
+                <div class="logout-section">
+                    <button class="btn-logout" th:onclick="|location.href='@{/logout}'|">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                            <polyline points="16 17 21 12 16 7"/>
+                            <line x1="21" y1="12" x2="9" y2="12"/>
+                        </svg>
+                        <span>로그아웃</span>
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+<script th:src="@{/js/mypage.js}"></script>
+</body>
+</html>

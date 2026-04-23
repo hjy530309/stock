@@ -1,0 +1,247 @@
+.need-want-chart {
+    margin-bottom: 14px;
+    padding: 14px 16px;
+}
+
+.bar-item {
+    margin-bottom: 14px;
+}
+
+.bar-item:last-child {
+    margin-bottom: 0;
+}
+
+.bar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 10px;
+    margin-bottom: 6px;
+}
+
+.bar-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--foreground);
+}
+
+.bar-value {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--accent);
+}
+
+.bar-percentage {
+    color: var(--muted-foreground);
+    margin-left: 4px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.horizontal-bar {
+    width: 100%;
+    height: 10px;
+    background-color: var(--muted);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.horizontal-bar-fill {
+    height: 100%;
+    width: 0;
+    border-radius: 999px;
+    transition: width 0.8s ease;
+}
+
+.horizontal-bar-fill.primary {
+    background: linear-gradient(90deg, #15164D 0%, #3182F6 100%);
+}
+
+.horizontal-bar-fill.accent {
+    background: linear-gradient(90deg, #FF7A7A 0%, #FF5C5C 100%);
+}
+
+.analytics-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.12fr) minmax(260px, 0.88fr);
+    gap: 14px;
+    margin-bottom: 10px;
+    align-items: start;
+}
+
+.category-chart {
+    display: grid;
+    grid-template-columns: 170px 1fr;
+    gap: 16px;
+    align-items: center;
+    min-height: 190px;
+}
+
+.donut-chart {
+    width: 170px;
+    height: 170px;
+    position: relative;
+    flex-shrink: 0;
+    margin: 0 auto;
+}
+
+#categoryDonut {
+    display: block;
+    width: 170px !important;
+    height: 170px !important;
+}
+
+.category-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+}
+
+.empty-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 170px;
+    padding: 20px;
+    color: #9ca3af;
+    font-size: 13px;
+    text-align: center;
+}
+
+.category-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(49, 130, 246, 0.05);
+}
+
+.category-item:last-child {
+    border-bottom: none;
+}
+
+.category-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    flex: 1;
+    font-size: 13px;
+    color: var(--foreground);
+}
+
+.category-amount-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 6px;
+    flex-shrink: 0;
+    text-align: right;
+}
+
+.category-color {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.category-amount {
+    font-weight: 700;
+    color: var(--foreground);
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.category-percentage {
+    font-size: 12px;
+    color: var(--muted-foreground);
+    white-space: nowrap;
+}
+
+.insight-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.insight-card {
+    padding: 12px 13px;
+    border-radius: 12px;
+    border: 1px solid;
+    background-color: #ffffff;
+}
+
+.insight-card.warning {
+    background-color: rgba(255, 92, 92, 0.05);
+    border-color: rgba(255, 92, 92, 0.14);
+}
+
+.insight-card.positive {
+    background-color: rgba(49, 130, 246, 0.05);
+    border-color: rgba(49, 130, 246, 0.12);
+}
+
+.insight-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.insight-icon {
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.insight-icon.warning {
+    color: #ef5a5a;
+}
+
+.insight-icon.positive {
+    color: var(--primary);
+}
+
+.insight-title {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 3px;
+    color: var(--foreground);
+}
+
+.insight-description {
+    font-size: 12px;
+    line-height: 1.45;
+    color: var(--muted-foreground);
+}
+
+.transaction-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-height: 250px;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+.transaction-item {
+    flex: 0 0 auto;
+    min-height: 74px;
+    padding: 12px 10px;
+    border-radius: 10px;
+}
+
+.transaction-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.transaction-list::-webkit-scrollbar-thumb {
+    background-color: rgba(49, 130, 246, 0.22);
+    border-radius: 999px;
+}
+
+.transaction-list::-webkit-scrollbar-track {
+    background-color: transparent;
+}

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<header class="topHeader" th:fragment="header(currentPage)">
+    <div class="topBar">
+        <div class="inner">
+            <div class="brand">
+                <div class="logo-header">
+                    <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 5c-1.5 0-2.8 1.4-3 2-3.5-1.5-11-.3-11 5 0 1.8 0 3 2 4.5V20h4v-2h3v2h4v-4c1-.5 1.5-1 2-2h2v-4h-2c0-1-.5-1.5-1-2h0V5z"/>
+                    </svg>
+                </div>
+                <a class="brandText" th:href="@{/stock}">Stoxle</a>
+            </div>
+
+            <div class="menu">
+                <th:block th:if="${session.loginUser == null}">
+                    <a th:href="@{/login}" class="utilLink">로그인</a>
+                    <a th:href="@{/register}" class="utilLink">회원가입</a>
+                </th:block>
+
+                <th:block th:if="${session.loginUser != null}">
+                    <div class="memberMenu">
+                        <div class="memberMenuSlot">
+                            <!-- 알림 벨 -->
+                            <div class="bellWrapper">
+                                <button class="bellBtn" id="bellBtn" title="알림 내역 열기" type="button" aria-label="알림 내역 열기">
+                                    <!-- SVG 벨 아이콘 -->
+                                    <svg width="18" height="18" viewBox="0 0 24 24"
+                                         fill="none" stroke="currentColor"
+                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                                        <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                                    </svg>
+                                    <span class="bellBadge" id="bellBadge">0</span>
+                                </button>
+
+<!-- 
+                    <div class="inlineAlert">
+                        <button type="button" class="utilTextBtn" id="bellBtn">알림</button>
+                        <span class="inlineBadge bellBadge" id="bellBadge">0</span>
+
+                        <div class="alertPanel" id="alertPanel">
+                            <div class="alertPanelTabs">
+                                <button class="alertTab active" data-tab="history" type="button">알림 내역</button>
+                                <button class="alertTab" data-tab="watchlist" type="button">관심종목 설정</button>
+                            </div>
+
+                            <div id="alertTabHistory">
+                                <div class="alertTabActions">
+                                    <button class="alertReadAllBtn" id="alertReadAllBtn" type="button">모두 읽음</button>
+                                </div>
+                                <div class="alertList" id="alertList">
+                                    <div class="alertEmpty">로딩 중...</div>
+                                </div>
+                            </div>
+
+                            <div id="alertTabWatchlist" style="display:none;">
+                                <div class="watchlistPanelNote">
+                                    등록된 종목은 ±3% 변동 시 알림을 받습니다
+                                </div>
+                                <div class="watchlistPanelList" id="watchlistPanelList">
+                                    <div class="alertEmpty">로딩 중...</div>
+                                </div>
+                            </div>
+-->
+                                <!-- 알림 드롭다운 패널 -->
+                                <div class="alertPanel" id="alertPanel">
+
+                                    <!-- 탭 헤더 -->
+                                    <div class="alertPanelTabs">
+                                        <button class="alertTab active" data-tab="history">알림 내역</button>
+                                        <button class="alertTab" data-tab="watchlist">관심종목 설정</button>
+                                    </div>
+
+                                    <!-- 알림 내역 탭 -->
+                                    <div id="alertTabHistory">
+                                        <!-- 알림창 기능 -->
+                                        <div class="alertPermissionBar" id="alertPermissionBar">
+                                            <div class="alertPermissionText" id="alertPermissionText">
+                                                브라우저 알림을 켜면 PC 알림으로 받을 수 있습니다
+                                            </div>
+                                            <button type="button" class="alertPermissionBtn" id="alertPermissionBtn">
+                                                브라우저 알림 켜기
+                                            </button>
+                                        </div>
+                                        <div class="alertTabActions">
+                                            <button class="alertReadAllBtn" id="alertReadAllBtn">모두 읽음</button>
+                                        </div>
+                                        <div class="alertList" id="alertList">
+                                            <div class="alertEmpty">로딩 중...</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 관심종목 설정 탭 -->
+                                    <div id="alertTabWatchlist" style="display:none;">
+                                        <div class="watchlistPanelNote">
+                                            등록된 종목은 ±3% 변동 시 알림을 받습니다
+                                        </div>
+                                        <div class="watchlistPanelList" id="watchlistPanelList">
+                                            <div class="alertEmpty">로딩 중...</div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <span class="userText memberUserText"
+                              th:text="${#strings.arraySplit(session.loginUser, '@')[0]} + '님'"></span>
+                        <a th:href="@{/logout}" class="memberMenuLink">로그아웃</a>
+                    </div>
+                </th:block>
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{/js/bell.js}"></script>
+
+    <div class="categoryBar">
+        <div class="inner categoryInner">
+            <ul class="categoryMenu">
+                <li><a th:href="@{/market}" th:classappend="${currentPage == 'market'} ? 'active' : ''">종 목</a></li>
+                <li><a th:href="@{/news}" th:classappend="${currentPage == 'news'} ? 'active' : ''">뉴 스</a></li>
+                <li><a th:href="@{/community}" th:classappend="${currentPage == 'community'} ? 'active' : ''">커뮤니티</a></li>
+                <li><a th:href="@{/asset/dashboard}" th:classappend="${currentPage == 'asset/dashboard'} ? 'active' : ''">자산 관리</a></li>
+                <li><a th:href="@{/mypage}" th:classappend="${currentPage == 'mypage'} ? 'active' : ''">마이페이지</a></li>
+            </ul>
+        </div>
+    </div>
+</header>
+
+</body>
+</html>

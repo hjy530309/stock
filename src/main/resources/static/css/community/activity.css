@@ -1,0 +1,211 @@
+@charset "UTF-8";
+
+.activityPage {
+    padding-top: 14px;
+}
+
+.activityMain {
+    grid-template-columns: var(--left-width) minmax(0, 1fr);
+}
+
+.activityMain .communitySidebar {
+    position: sticky;
+    top: 108px;
+}
+
+.activityProfileCard {
+    margin-bottom: 12px;
+}
+
+.activityMain .themeAccordion .accordionContent,
+.activityCategoryContent {
+    display: block;
+    max-height: 220px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 4px;
+}
+
+.activityMain .themeAccordion .accordionContent::-webkit-scrollbar,
+.activityCategoryContent::-webkit-scrollbar {
+    width: 6px;
+}
+
+.activityMain .themeAccordion .accordionContent::-webkit-scrollbar-thumb,
+.activityCategoryContent::-webkit-scrollbar-thumb {
+    background: var(--line-strong);
+    border-radius: 999px;
+}
+
+.activityMain .themeAccordion .accordionContent::-webkit-scrollbar-track,
+.activityCategoryContent::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.activityMain .boardItem {
+    margin-bottom: 10px;
+}
+
+.activityMain .commentItem {
+    background: var(--bg-card);
+    border: 1px solid #eef1f5;
+    border-radius: 18px;
+    padding: 16px 18px;
+    margin-bottom: 10px;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.activityMain .commentItem:hover {
+    transform: translateY(-1px);
+    border-color: #dde3ea;
+}
+
+.activityCommentLinkCard {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+.activityCommentCard,
+.activityReplyCard {
+    padding: 18px 18px;
+    min-height: 132px;
+}
+
+.activityCommentCard .commentBody,
+.activityReplyCard .commentBody {
+    width: 100%;
+}
+
+.activityCommentCard .commentMetaRow,
+.activityReplyCard .commentMetaRow {
+    margin-bottom: 12px;
+}
+
+.activityCommentCard .commentMeta strong,
+.activityReplyCard .commentMeta strong {
+    font-size: 14px;
+    line-height: 1.45;
+}
+
+.activityCommentCard .commentMeta span,
+.activityReplyCard .commentMeta span {
+    font-size: 12px;
+}
+
+.activityCommentCard .commentText,
+.activityReplyCard .commentText {
+    font-size: 13px;
+    line-height: 1.75;
+    min-height: 48px;
+}
+
+.activityCommentMove {
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--primary-main);
+    flex-shrink: 0;
+}
+
+.activityCommentLinkCard:hover .activityCommentCard {
+    border-color: #dde3ea;
+    transform: translateY(-1px);
+}
+
+.activityReplyCard .commentMoreMenuButton {
+    width: 28px;
+    height: 28px;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: #6b7280;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.activityReplyCard .commentMoreMenuButton:hover {
+    background: #f3f4f6;
+    color: #111827;
+}
+
+.activityReplyCard .commentMoreMenuDropdown {
+    position: absolute;
+    top: 32px;
+    right: 0;
+    min-width: 124px;
+    padding: 6px;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 12px 24px rgba(15, 23, 42, 0.12);
+    display: none;
+    z-index: 20;
+}
+
+.activityReplyCard .commentMoreMenuDropdown.show {
+    display: block;
+}
+
+/* 수정 이유:
+   원문 보기와 삭제가 텍스트만 눌리는 느낌이 아니라
+   메뉴 한 줄 전체가 클릭되도록 만들어서 사용성을 높임 */
+.activityReplyCard .commentMoreMenuLink,
+.activityReplyCard .commentMoreMenuForm {
+    display: block;
+    width: 100%;
+}
+
+.activityReplyCard .commentMoreMenuForm {
+    margin: 0;
+}
+
+/* 수정 이유:
+   클릭 영역을 넓히기 위해 width, min-height, padding을 충분히 줌.
+   특히 원문 보기의 커서 칸이 작게 느껴지던 문제를 해결 */
+.activityReplyCard .commentMoreMenuItem {
+    width: 100%;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    padding: 0 14px;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    box-sizing: border-box;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    text-align: left;
+    cursor: pointer;
+    color: #374151;
+}
+
+.activityReplyCard .commentMoreMenuItem:hover {
+    background: #f3f4f6;
+}
+
+.activityReplyCard .commentMoreMenuItem.danger {
+    color: #e25555;
+}
+
+.emptyState {
+    background: var(--bg-card);
+    border: 1px dashed #dde3ea;
+    border-radius: 18px;
+    padding: 28px 18px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+@media (max-width: 1100px) {
+    .activityMain {
+        grid-template-columns: 1fr;
+    }
+
+    .activityMain .communitySidebar {
+        position: static;
+    }
+}

@@ -1,0 +1,27 @@
+# Core runtime dependencies used by the repository's Python scripts.
+beautifulsoup4==4.14.3
+fastapi==0.135.3
+finance-datareader==0.9.110
+joblib==1.5.3
+lightgbm==4.6.0
+numpy==2.4.4
+oracledb==3.4.2
+pandas==3.0.2
+pydantic==2.12.5
+requests==2.33.1
+scikit-learn==1.8.0
+sqlalchemy==2.0.49
+torch==2.11.0
+transformers==5.5.4
+uvicorn==0.44.0
+
+# Imported by repository utility scripts but not present in the current root .venv
+# when this file was generated. They are listed here so a fresh install can
+# recreate the broader Python toolchain used in the repo.
+aiohttp
+feedparser
+gnews
+GoogleNews
+konlpy
+openai
+python-dotenv

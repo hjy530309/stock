@@ -1,0 +1,48 @@
+HELP.md
+target/
+.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+### Python ###
+__pycache__/
+*.py[cod]
+python/.env
+python/ml/standalone/**/.env
+python/ml/standalone/**/data/*
+!python/ml/standalone/**/data/.gitkeep
+python/ml/standalone/**/models/*
+!python/ml/standalone/**/models/.gitkeep
+
+### 蹂댁븞: DB ?묒냽 ?뺣낫 (?덈? GitHub???щ━吏 留?寃? ###
+src/main/resources/application.properties
+
+.venv/

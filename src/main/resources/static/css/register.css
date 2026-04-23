@@ -1,0 +1,418 @@
+@charset "UTF-8";
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+    font-family: "Pretendard", "Malgun Gothic", "맑은 고딕", Arial, sans-serif;
+    background:
+        radial-gradient(circle at top left, rgba(99, 102, 241, 0.08), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(59, 130, 246, 0.08), transparent 24%),
+        linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
+    color: #0E0F37;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    padding-top: 76px;
+}
+
+.page {
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 32px 24px 48px;
+}
+
+.registerWrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.registerLayout {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 0.92fr 1.08fr;
+    gap: 20px;
+    align-items: stretch;
+}
+
+/* left panel */
+.introPanel {
+    background: linear-gradient(-45deg, #15164D, #2c1f44, #233657, #15164D);
+    background-size: 400% 400%;
+    animation: gradientBG 14s ease infinite;
+    color: #fff;
+    border-radius: 14px;
+    padding: 18px 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 24px;
+    min-height: 540px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(31, 42, 68, 0.18);
+}
+
+.introPanel::before {
+    content: "";
+    position: absolute;
+    top: -120px;
+    right: -80px;
+    width: 260px;
+    height: 260px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 50%;
+    filter: blur(4px);
+}
+
+.introPanel::after {
+    content: "";
+    position: absolute;
+    bottom: -100px;
+    left: -60px;
+    width: 220px;
+    height: 220px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+    filter: blur(2px);
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.introTop {
+    position: relative;
+    z-index: 2;
+}
+
+.introBadge {
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 13px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.10);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    font-size: 12px;
+    font-weight: 700;
+    color: #f8fafc;
+    letter-spacing: 0.2px;
+    margin-bottom: 16px;
+    backdrop-filter: blur(6px);
+}
+
+.introTitle {
+    margin: 0;
+    font-size: 30px;
+    line-height: 1.18;
+    font-weight: 800;
+    letter-spacing: -1px;
+}
+
+.introDesc {
+    margin: 12px 0 0;
+    max-width: 460px;
+    font-size: 12px;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.88);
+}
+
+.introStatWrap {
+    margin-top: 22px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.introStat {
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 14px;
+    padding: 14px 12px;
+    backdrop-filter: blur(8px);
+}
+
+.introStatValue {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.introStatLabel {
+    margin: 5px 0 0;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.76);
+    line-height: 1.45;
+}
+
+.introBottom {
+    position: relative;
+    z-index: 2;
+    margin-top: 0;
+}
+
+.introPointWrap {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+}
+
+.introPoint {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 16px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(8px);
+    transition: transform 0.25s ease, background 0.25s ease;
+}
+
+.introPoint:hover {
+    transform: translateY(-3px);
+    background: rgba(255, 255, 255, 0.11);
+}
+
+.introPointTitle {
+    margin: 0 0 6px;
+    font-size: 14px;
+    font-weight: 800;
+    color: #fff;
+}
+
+.introPointText {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.65;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+/* right panel */
+.registerCard {
+    position: relative;
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(229, 231, 235, 0.9);
+    border-radius: 24px;
+    padding: 30px 28px 24px;
+    box-shadow:
+        0 16px 40px rgba(15, 23, 42, 0.08),
+        0 2px 10px rgba(15, 23, 42, 0.04);
+    backdrop-filter: blur(10px);
+    overflow: hidden;
+}
+
+.registerCard::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 4px;
+    background: linear-gradient(90deg, #15164D 0%, #4d6edb 100%);
+    opacity: 0.95;
+}
+
+.cardHead {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 22px;
+}
+
+.cardTitle {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 800;
+    color: #111827;
+    letter-spacing: -0.8px;
+}
+
+.cardDesc {
+    margin: 10px 0 0;
+    font-size: 14px;
+    line-height: 1.65;
+    color: #6b7280;
+}
+
+.field {
+    margin-bottom: 16px;
+}
+
+.fieldLabel {
+    display: block;
+    margin-bottom: 7px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.requiredMark {
+    color: #dc2626;
+    margin-right: 2px;
+}
+
+.inputBox {
+    width: 100%;
+    height: 52px;
+    border: 1px solid #d1d5db;
+    border-radius: 14px;
+    background: #ffffff;
+    padding: 0 16px;
+    font-size: 15px;
+    color: #111827;
+    outline: none;
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease,
+        background-color 0.2s ease;
+}
+
+.inputBox::placeholder {
+    color: #9ca3af;
+}
+
+.inputBox:hover {
+    border-color: #b8c0cc;
+    background: #fcfcfd;
+}
+
+.inputBox:focus {
+    border-color: #15164D;
+    box-shadow: 0 0 0 4px rgba(31, 42, 68, 0.10);
+    background: #fff;
+}
+
+.helpText {
+    margin: 7px 2px 0;
+    font-size: 12px;
+    line-height: 1.55;
+    color: #6b7280;
+}
+
+.registerBtn {
+    width: 100%;
+    height: 54px;
+    margin-top: 8px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #15164D 0%, #2e4068 100%);
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: -0.2px;
+    cursor: pointer;
+    box-shadow: 0 12px 24px rgba(31, 42, 68, 0.18);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+.registerBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 18px 30px rgba(31, 42, 68, 0.22);
+}
+
+.registerBtn:active {
+    transform: translateY(0);
+    box-shadow: 0 8px 18px rgba(31, 42, 68, 0.18);
+}
+
+.bottomArea {
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(229, 231, 235, 0.9);
+    text-align: center;
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.bottomArea a {
+    margin-left: 6px;
+    text-decoration: none;
+    color: #15164D;
+    font-weight: 800;
+}
+
+.bottomArea a:hover {
+    text-decoration: underline;
+}
+
+/* 반응형 */
+@media (max-width: 1024px) {
+    .page {
+        padding: 28px 20px 44px;
+    }
+
+    .registerLayout {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .introPanel {
+        min-height: auto;
+        padding: 28px 24px;
+    }
+
+    .introTitle {
+        font-size: 32px;
+    }
+
+    .introStatWrap {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        padding-top: 68px;
+    }
+
+    .page {
+        padding: 22px 16px 40px;
+    }
+
+    .registerLayout {
+        gap: 16px;
+    }
+
+    .introPanel,
+    .registerCard {
+        border-radius: 22px;
+    }
+
+    .introPanel {
+        padding: 24px 20px;
+    }
+
+    .introTitle {
+        font-size: 28px;
+    }
+
+    .cardTitle {
+        font-size: 28px;
+    }
+
+    .introStatWrap {
+        grid-template-columns: 1fr;
+    }
+
+    .registerCard {
+        padding: 28px 22px 22px;
+    }
+
+    .inputBox {
+        height: 50px;
+        border-radius: 13px;
+    }
+
+    .registerBtn {
+        height: 52px;
+        border-radius: 13px;
+    }
+}

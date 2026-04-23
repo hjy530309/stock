@@ -1,0 +1,781 @@
+@charset "UTF-8";
+
+:root {
+    --header-bg: #ffffff;
+    --header-border: #e5e7eb;
+    --header-text: #111827;
+    --header-sub: #6b7280;
+    --header-sub-soft: #9ca3af;
+    --header-primary: #15164D;
+    --header-primary-strong: #0E0F37;
+    --header-hover: #f9fafb;
+    --header-max-width: 1380px;
+    --header-topbar-height: 50px;
+    --header-category-height: 48px;
+}
+
+a {
+    text-decoration: none;
+}
+
+body.withMainHeader {
+    margin: 0;
+    padding-top: 115px;
+    background-color: #f8fafc;
+}
+
+body.withGuestHeader {
+    margin: 0;
+    padding-top: 50px;
+    background-color: #f8fafc;
+}
+
+.topHeader,
+.topHeader * {
+    font-family: "Pretendard", "Malgun Gothic", "맑은 고딕", Arial, sans-serif;
+    box-sizing: border-box;
+}
+
+.topHeader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--header-bg);
+    border-bottom: 1px solid var(--header-border);
+    z-index: 9999;
+}
+
+.topBar {
+    height: var(--header-topbar-height);
+    display: flex;
+    align-items: center;
+    background-color: var(--header-bg);
+}
+
+.inner {
+    width: 100%;
+    max-width: var(--header-max-width);
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    min-width: 120px;
+    gap: 10px;
+}
+
+.logo-header {
+    display: flex;
+    align-items: center;
+    color: var(--header-text);
+}
+
+.brandText {
+    color: var(--header-text);
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+    line-height: 1;
+}
+
+.menu {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 2px;
+    min-width: auto;
+}
+
+.userText,
+.currentPageText,
+.utilLink,
+.utilTextBtn {
+    position: relative;
+    font-size: 14px;
+    line-height: 1;
+    letter-spacing: -0.15px;
+}
+
+.userText {
+    color: var(--header-text);
+    font-weight: 700;
+    padding-right: 14px;
+}
+
+.memberMenu {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 14px;
+}
+
+.memberMenuSlot {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.memberUserText {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 38px;
+    min-width: 0;
+    text-align: center;
+    white-space: nowrap;
+    position: relative;
+    padding-right: 16px;
+    color: var(--header-text);
+    font-weight: 700;
+}
+
+.memberUserText::after {
+    content: "|";
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #d1d5db;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.memberMenuLink {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 38px;
+    color: var(--header-sub);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+    text-align: left;
+    white-space: nowrap;
+    transition: color 0.2s ease;
+}
+
+.memberMenuLink:hover {
+    color: var(--header-text);
+}
+
+.currentPageText {
+    color: var(--header-sub);
+    font-weight: 700;
+    padding-right: 14px;
+}
+
+.utilLink,
+.utilTextBtn {
+    color: var(--header-sub);
+    font-weight: 600;
+    padding: 0 16px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.utilLink:hover,
+.utilTextBtn:hover {
+    color: var(--header-text);
+}
+
+.inlineAlert {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+.utilLink + .utilLink::before,
+.userText + .utilLink::before,
+.currentPageText + .utilLink::before,
+.userText + .inlineAlert .utilTextBtn::before,
+.currentPageText + .inlineAlert .utilTextBtn::before,
+.inlineAlert + .utilLink::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 1px;
+    height: 11px;
+    background: #d1d5db;
+    transform: translateY(-50%);
+}
+
+.inlineBadge {
+    position: absolute;
+    top: -8px;
+    right: 0;
+    background: #ef4444;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    min-width: 16px;
+    height: 16px;
+    border-radius: 8px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 0 3px;
+    line-height: 1;
+}
+
+.inlineBadge.show {
+    display: flex;
+}
+
+.alertPanel {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    width: 340px;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    z-index: 9998;
+    display: none;
+    overflow: hidden;
+}
+
+.alertPanel.open {
+    display: block;
+}
+
+.alertPanelTabs {
+    display: flex;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.alertTab {
+    flex: 1;
+    padding: 12px 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: #9ca3af;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s;
+}
+
+.alertTab:hover {
+    color: #374151;
+}
+
+.alertTab.active {
+    color: #0E0F37;
+    border-bottom-color: #0E0F37;
+}
+
+.alertTabActions {
+    display: flex;
+    justify-content: flex-end;
+    padding: 8px 16px 4px;
+}
+
+.alertReadAllBtn {
+    font-size: 12px;
+    color: #6b7280;
+    cursor: pointer;
+    font-weight: 600;
+    border: none;
+    background: none;
+    padding: 0;
+}
+
+.alertReadAllBtn:hover {
+    color: #111827;
+}
+
+.alertList {
+    max-height: 360px;
+    overflow-y: auto;
+}
+
+.alertItem {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 16px;
+    border-bottom: 1px solid #f9fafb;
+    cursor: pointer;
+    transition: background 0.12s;
+}
+
+.alertItem:last-child {
+    border-bottom: none;
+}
+
+.alertItem:hover {
+    background: #f9fafb;
+}
+
+.alertItem.unread {
+    background: #fefce8;
+}
+
+.alertItem.unread:hover {
+    background: #fef9c3;
+}
+
+.alertDot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-top: 5px;
+    flex-shrink: 0;
+}
+
+.alertDot.up {
+    background: #ef4444;
+}
+
+.alertDot.down {
+    background: #3b82f6;
+}
+
+.alertItemText {
+    flex: 1;
+}
+
+.alertItemName {
+    font-size: 13px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.alertItemDesc {
+    font-size: 12px;
+    color: #6b7280;
+    margin-top: 2px;
+}
+
+.alertItemTime {
+    font-size: 11px;
+    color: #9ca3af;
+    margin-top: 4px;
+}
+
+.alertEmpty {
+    text-align: center;
+    padding: 36px 16px;
+    color: #9ca3af;
+    font-size: 13px;
+}
+
+.watchlistPanelNote {
+    font-size: 11px;
+    color: #6b7280;
+    background: #f9fafb;
+    padding: 8px 16px;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.watchlistPanelList {
+    max-height: 340px;
+    overflow-y: auto;
+}
+
+.watchlistPanelItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 11px 16px;
+    border-bottom: 1px solid #f9fafb;
+    transition: background 0.12s;
+    cursor: pointer;
+}
+
+.watchlistPanelItem:last-child {
+    border-bottom: none;
+}
+
+.watchlistPanelItem:hover {
+    background: #f9fafb;
+}
+
+.watchlistItemInfo {
+    flex: 1;
+}
+
+.watchlistItemName {
+    font-size: 13px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.watchlistItemCode {
+    font-size: 11px;
+    color: #9ca3af;
+    margin-top: 1px;
+}
+
+.watchlistRemoveBtn {
+    font-size: 11px;
+    font-weight: 600;
+    color: #9ca3af;
+    background: none;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    padding: 4px 9px;
+    cursor: pointer;
+    transition: all 0.13s;
+    white-space: nowrap;
+}
+
+.watchlistRemoveBtn:hover {
+    color: #ef4444;
+    border-color: #ef4444;
+    background: #fff5f5;
+}
+
+.categoryBar {
+    height: var(--header-category-height);
+    display: flex;
+    align-items: center;
+    border-top: 1px solid #f9fafb;
+    border-bottom: 1px solid #f2f2f2;
+    background-color: #ffffff;
+}
+
+.categoryInner {
+    justify-content: flex-start;
+}
+
+.categoryMenu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.categoryMenu li {
+    width: 112px;
+    flex: 0 0 112px;
+    display: flex;
+    justify-content: center;
+}
+
+.categoryMenu li:nth-child(1),
+.categoryMenu li:nth-child(2),
+.categoryMenu li:nth-child(3) {
+    width: 92px;
+    flex: 0 0 92px;
+}
+
+.categoryMenu li a {
+    position: relative;
+    width: 100%;
+    text-align: center;
+    color: var(--header-text);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: -0.2px;
+    padding: 11px 0 7px;
+    border-bottom: none;
+    display: inline-block;
+    transition: color 0.2s ease;
+}
+
+.categoryMenu li a::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 74px;
+    height: 3px;
+    background-color: #0E0F37;
+    border-radius: 999px;
+    transform: translateX(-50%) scaleX(0);
+    transform-origin: center;
+    transition: transform 0.2s ease;
+}
+
+.categoryMenu li a:hover::after,
+.categoryMenu li a.active::after {
+    transform: translateX(-50%) scaleX(1);
+}
+
+.guestOnlyHeader {
+    border-bottom: 1px solid var(--header-border);
+}
+
+.bellWrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bellBtn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1.5px solid #e5e7eb;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+    position: relative;
+    color: #374151;
+}
+
+.bellBtn:hover {
+    background: #f3f4f6;
+    border-color: #d1d5db;
+}
+
+.bellBadge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: #ef4444;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    min-width: 16px;
+    height: 16px;
+    border-radius: 8px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 0 3px;
+    line-height: 1;
+}
+
+.bellBadge.show {
+    display: flex;
+}
+
+.alertPermissionBar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 16px;
+    border-bottom: 1px solid #f3f4f6;
+    background: linear-gradient(135deg, #f8fbff, #ffffff);
+}
+
+.alertPermissionText {
+    flex: 1;
+    font-size: 12px;
+    line-height: 1.55;
+    color: #4b5563;
+    word-break: keep-all;
+}
+
+.alertPermissionBtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: 1px solid #cbd5e1;
+    border-radius: 999px;
+    background: #ffffff;
+    color: #0f172a;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    padding: 9px 12px;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.alertPermissionBtn:hover {
+    background: #eff6ff;
+    border-color: #93c5fd;
+    color: #1d4ed8;
+}
+
+.alertPermissionBtn:disabled {
+    cursor: default;
+    opacity: 0.7;
+}
+
+.alertPermissionBar[data-permission="granted"] {
+    background: linear-gradient(135deg, #f0fdf4, #ffffff);
+}
+
+.alertPermissionBar[data-permission="denied"] {
+    background: linear-gradient(135deg, #fff7ed, #ffffff);
+}
+
+.alertPermissionBar[data-permission="unsupported"] {
+    background: linear-gradient(135deg, #f8fafc, #ffffff);
+}
+
+.pageContainer {
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 10px 20px 64px;
+}
+
+.guestOnlyHeader .menu .utilLink {
+    color: var(--header-sub-soft);
+    font-weight: 600;
+}
+
+.guestOnlyHeader .menu .utilLink:hover {
+    color: var(--header-text);
+}
+
+.guestOnlyHeader .menu .utilLink:last-child {
+    color: var(--header-primary);
+    font-weight: 800;
+}
+
+.guestOnlyHeader .menu .utilLink:last-child:hover {
+    color: var(--header-primary-strong);
+}
+
+.guestOnlyHeader .menu .currentPageText {
+    color: var(--header-sub-soft);
+    font-weight: 600;
+}
+
+@media (max-width: 900px) {
+    .brandText {
+        font-size: 22px;
+    }
+
+    .menu {
+        min-width: auto;
+    }
+
+    .memberMenu {
+        gap: 10px;
+    }
+
+    .memberUserText {
+        padding-right: 14px;
+    }
+}
+
+@media (max-width: 768px) {
+    body.withMainHeader {
+        padding-top: 116px;
+    }
+
+    body.withGuestHeader {
+        padding-top: 68px;
+    }
+
+    .topBar {
+        height: 68px;
+    }
+
+    .inner {
+        padding: 0 14px;
+    }
+
+    .brandText {
+        font-size: 21px;
+    }
+
+    .userText,
+    .currentPageText,
+    .utilLink,
+    .utilTextBtn {
+        font-size: 13px;
+    }
+
+    .userText {
+        padding-right: 8px;
+    }
+
+    .utilLink,
+    .utilTextBtn {
+        padding: 0 8px;
+    }
+
+    .alertPanel {
+        right: -8px;
+        width: 320px;
+    }
+
+    .menu {
+        gap: 6px;
+    }
+
+    .memberMenu {
+        gap: 10px;
+    }
+
+    .memberUserText,
+    .memberMenuLink {
+        font-size: 13px;
+    }
+
+    .memberUserText {
+        padding-right: 14px;
+    }
+
+    .memberUserText::after {
+        font-size: 12px;
+    }
+
+    .bellBtn {
+        width: 34px;
+        height: 34px;
+    }
+
+    .categoryBar {
+        height: var(--header-category-height);
+        display: flex;
+        align-items: center;
+        border-top: 1px solid #f9fafb;
+        border-bottom: 1px solid #f2f2f2;
+        background-color: #ffffff;
+    }
+
+    .categoryMenu {
+        gap: 10px;
+        overflow-x: auto;
+        white-space: nowrap;
+        width: 100%;
+    }
+
+    .categoryMenu li {
+        width: 96px;
+        flex: 0 0 96px;
+    }
+
+    .categoryMenu li:nth-child(1),
+    .categoryMenu li:nth-child(2),
+    .categoryMenu li:nth-child(3) {
+        width: 82px;
+        flex: 0 0 82px;
+    }
+
+    .categoryMenu li a {
+        font-size: 14px;
+    }
+
+    .pageContainer {
+        padding: 20px 14px 48px;
+    }
+
+    .alertPermissionBar {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .alertPermissionBtn {
+        width: 100%;
+        justify-content: center;
+    }
+}
